@@ -142,7 +142,7 @@ def driverSignUpView():
 
     return jsonify(response) 
 
-@app.route('/addPrescription')
+@app.route('/addPrescription', methods=["POST"])
 def addPrescriptionView():
     try:
         reqJson = request.get_json()
