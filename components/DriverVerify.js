@@ -18,7 +18,7 @@ class DriverVerifyScreen extends React.Component {
 
 	RegisterinDB = async () => {
 		if (this.state.firstName && this.state.lastName && this.state.mobileNum.length == 10 && this.state.address && this.state.password.length > 7 && validator.isEmail(this.state.email)) {
-			fetch('https://pillsonwheels.herokuapp.com/clientSignUp', {
+			fetch('https://pillsonwheels.herokuapp.com/driverSignUp', {
 				method: 'POST',
 				headers: new Headers({
 					"Accept": "application/json",
@@ -136,7 +136,7 @@ class DriverVerifyScreen extends React.Component {
 							ALLOWING DRIVERS TO DELIVER STRAIGHT TO YOUR HOME
 						</Text>
 					</View>
-					<TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('DeliverHome')}>
+					<TouchableOpacity style={styles.button} onPress={this.RegisterinDB}>
 						<Text
 							style={{
 								color: "white",

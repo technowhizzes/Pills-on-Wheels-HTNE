@@ -12,6 +12,26 @@ import {
 
 class ClientLogin extends React.Component {
 
+    checkLogin = async () => {
+        fetch('https://pillsonwheels.herokuapp.com/clientLogin', {
+            method: 'POST',
+            headers: new Headers({
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify(
+                { "email": this.state.email, "password": this.state.password }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+            
+    }
+
 	static navigationOptions = {
 		title: ' ',
 		headerLeft: null,
@@ -25,11 +45,8 @@ class ClientLogin extends React.Component {
 	
 	
 	state = {
-		firstName: "",
-		lastName: "",
-		address: "",
 		email: "",
-		mobileNum: "",
+		password: "",
 	};
 	render() {
 		return (
@@ -46,7 +63,7 @@ class ClientLogin extends React.Component {
 						<TextInput
 							placeholder="Email Address"
 							onChangeText={(text) =>
-								this.setState({ firstName: text })
+								this.setState({ email: text })
 							}
 							style={styles.input}
 						/>
@@ -54,12 +71,12 @@ class ClientLogin extends React.Component {
                             placeholder="Password"
                             secureTextEntry = {true}
 							onChangeText={(text) =>
-								this.setState({ lastName: text })
+								this.setState({ password: text })
 							}
 							style={styles.input}
 						/>
 					</View>
-					<TouchableOpacity style={styles.login} onPress={() => this.props.navigation.navigate('Profile')}>
+					<TouchableOpacity style={styles.login} onPress={this.checkLogin}>
 						<Text
 							style={{
 								color: "white",
