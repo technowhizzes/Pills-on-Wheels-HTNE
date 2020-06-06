@@ -11,66 +11,79 @@ import {
 } from "react-native";
 
 class DriverVerifyScreen extends React.Component {
-
-    goToLogin = async () => {
-		this.props.navigation.navigate('DriverLoginScreen')
-	}
+	goToLogin = async () => {
+		this.props.navigation.navigate("DriverLoginScreen");
+	};
 
 	RegisterinDB = async () => {
-		if (this.state.firstName && this.state.lastName && this.state.mobileNum.length == 10 && this.state.address && this.state.password.length > 7 && validator.isEmail(this.state.email)) {
-			fetch('https://pillsonwheels.herokuapp.com/clientSignUp', {
-				method: 'POST',
+		if (
+			this.state.firstName &&
+			this.state.lastName &&
+			this.state.mobileNum.length == 10 &&
+			this.state.address &&
+			this.state.password.length > 7 &&
+			validator.isEmail(this.state.email)
+		) {
+			fetch("https://pillsonwheels.herokuapp.com/clientSignUp", {
+				method: "POST",
 				headers: new Headers({
-					"Accept": "application/json",
-					"Content-Type": "application/json"
+					Accept: "application/json",
+					"Content-Type": "application/json",
 				}),
-				body: JSON.stringify(
-					{ 'firstName': this.state.firstName, 'lastName': this.state.lastName, 'address': this.state.address, 'phoneNum': this.state.mobileNum, 'email': this.state.email, "password": this.state.password }),
+				body: JSON.stringify({
+					firstName: this.state.firstName,
+					lastName: this.state.lastName,
+					address: this.state.address,
+					phoneNum: this.state.mobileNum,
+					email: this.state.email,
+					password: this.state.password,
+				}),
 			})
-				.then(response => response.json())
-				.then(data => {
-					console.log('Success:', data);
+				.then((response) => response.json())
+				.then((data) => {
+					console.log("Success:", data);
 				})
 				.catch((error) => {
-					console.error('Error:', error);
+					console.error("Error:", error);
 				});
 
-			this.goToLogin
-			this.props.navigation.navigate('ClientLoginScreen')
-		} if (!this.state.password || !this.state.firstName || !this.state.lastName || !this.state.address || !this.state.mobileNum || !this.state.email) {
+			this.goToLogin;
+			this.props.navigation.navigate("ClientLoginScreen");
+		}
+		if (
+			!this.state.password ||
+			!this.state.firstName ||
+			!this.state.lastName ||
+			!this.state.address ||
+			!this.state.mobileNum ||
+			!this.state.email
+		) {
 			Alert.alert(
 				"Registration Failed",
 				"Please ensure all fields are entered correctly.",
-				[
-					{ text: "OK", onPress: () => console.log("OK Pressed") }
-				],
-				{ cancelable: false }
-			);
-		} if (this.state.password.length < 8) {
-			Alert.alert(
-				"Registration Failed",
-				"Password must be more than 7 characters.",
-				[
-					{ text: "OK", onPress: () => console.log("OK Pressed") }
-				],
+				[{ text: "OK", onPress: () => console.log("OK Pressed") }],
 				{ cancelable: false }
 			);
 		}
-	}
-
+		if (this.state.password.length < 8) {
+			Alert.alert(
+				"Registration Failed",
+				"Password must be more than 7 characters.",
+				[{ text: "OK", onPress: () => console.log("OK Pressed") }],
+				{ cancelable: false }
+			);
+		}
+	};
 
 	static navigationOptions = {
-		title: ' ',
+		title: " ",
 		headerLeft: null,
-        headerStyle: {
-            height: 0
-        },
-        headerShown: false
-
-
+		headerStyle: {
+			height: 0,
+		},
+		headerShown: false,
 	};
-	
-	
+
 	state = {
 		firstName: "",
 		lastName: "",
@@ -122,8 +135,8 @@ class DriverVerifyScreen extends React.Component {
 						/>
 						<TextInput
 							placeholder="Mobile Number"
-							keyboardType={'phone-pad'}
-							returnKeyType='done'
+							keyboardType={"phone-pad"}
+							returnKeyType="done"
 							onChangeText={(text) =>
 								this.setState({ mobileNum: text })
 							}
@@ -136,13 +149,15 @@ class DriverVerifyScreen extends React.Component {
 							ALLOWING DRIVERS TO DELIVER STRAIGHT TO YOUR HOME
 						</Text>
 					</View>
-					<TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('DeliverHome')}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => this.RegisterinDB}
+					>
 						<Text
 							style={{
 								color: "white",
 								fontSize: 17,
 								fontWeight: "bold",
-								
 							}}
 						>
 							VERIFY MY ID
@@ -165,14 +180,13 @@ const styles = StyleSheet.create({
 		width: "80%",
 		justifyContent: "center",
 		alignItems: "center",
-		top: -10
+		top: -10,
 	},
 	container: {
 		flex: 1,
 		backgroundColor: "#fff",
 		alignItems: "center",
-		justifyContent: "center"
-
+		justifyContent: "center",
 	},
 	input: {
 		borderWidth: 1,
@@ -181,7 +195,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 5,
 		paddingVertical: 3,
 		margin: 10,
-		top: -20
+		top: -20,
 	},
 	inputContainer: {
 		// borderWidth: 1,
@@ -195,24 +209,23 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		backgroundColor: "#B3D1FF",
 		padding: 5,
-		top: -20
+		top: -20,
 	},
 	message: {
 		color: "white",
 		fontWeight: "bold",
-		fontSize: 17
+		fontSize: 17,
 	},
 	text: {
 		// borderWidth: 1,
 		fontSize: 17,
 		fontWeight: "bold",
 		marginBottom: 10,
-		top: -20
+		top: -20,
 	},
 	logo: {
 		top: -10,
 		width: 180,
-		height: 180
-	}
-	
+		height: 180,
+	},
 });
