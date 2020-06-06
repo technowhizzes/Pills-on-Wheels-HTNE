@@ -48,31 +48,41 @@ class Driver(db.Model):
 class Prescription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     clientId = db.Column(db.Integer, db.ForeignKey('client.id'))
+    prescribingDoctor = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     dose = db.Column(db.String(255), nullable=False)
     reps = db.Column(db.Integer, default=0)
     number = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, clientId, name, dose, reps, number):
+    def __init__(self, clientId, doctor, name, dose, reps, number):
         self.clientId = clientId
+        self.prescribingDoctor = doctor
         self.name = name
         self.dose = dose
         self.reps = reps
         self.number = number
         
-class Delivery(db.Model):
+class AvailableDelivery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    driverId = db.Column(db.Integer, db.ForeignKey('driver.id'))
-    prescriptionId = db.Column(db.Integer, db.ForeignKey('prescription.id'))
+    prescriptionId = db.Column(db.String(255), db.ForeignKey('prescription.id'))
     pharmacyName = db.Column(db.String(255), nullable=False)
     pharmacyAddress = db.Column(db.String(255), nullable=False)
-    completed = db.Column(db.Boolean, default=False, nullable=False)
 
-    def __init__(self, driverId, prescriptionId, pharmacyName, pharmacyAddress):
-        self.driverId = driverId
+    def __init__(self, prescriptionId, pharmacyName, pharmacyAddress):
         self.prescriptionId = prescriptionId
         self.pharmacyName = pharmacyName
         self.pharmacyAddress = pharmacyAddress
+
+class ClaimedDelivery(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    driverId = db.Column(db.Integer, db.ForeignKey('driver.id'))
+    deliveryId = db.Column(db.Integer, db.ForeignKey('available_delivery.id'))
+    completed = db.Column(db.Boolean, default=False, nullable=False)
+
+    def __init__(self, driverId, deliveryId):
+        self.driverId = driverId
+        self.deliveryId = deliveryId
+
 
 # GLOBAL FUNCTIONS
 def makeJson(result):
@@ -148,7 +158,7 @@ def driverSignUpView():
         driverEmail = reqJson['email'] if reqJson['email'] else None
         driverPassword = generate_password_hash(reqJson['password'], method='sha256') if reqJson['password'] else None
 
-        if (Driver.query.filter_by(driverEmail).first() != None):
+        if (Driver.query.filter_by(email=driverEmail).first() != None):
             response = {'status': 0, 'error': 'That email already exists in the database'}
             return jsonify(response)
 
@@ -193,7 +203,8 @@ def addPrescriptionView():
     try:
         reqJson = request.get_json()
 
-        currPrescriptionUserId = reqJson['id'] if reqJson['id'] else None
+        currPrescriptionClientId = reqJson['id'] if reqJson['id'] else None
+        currPrescriptionPrescribingDoctor = reqJson['doctor'] if reqJson['doctor'] else None
         currPrescriptionName = reqJson['name'] if reqJson['name'] else None
         currPrescriptionDose = reqJson['dose'] if reqJson['dose'] else None
         currPrescriptionReps = reqJson['reps'] if reqJson['reps'] else None
@@ -204,7 +215,7 @@ def addPrescriptionView():
         return jsonify(response)
 
     try:
-        prescription = Prescription(currPrescriptionUserId, currPrescriptionName, currPrescriptionDose, currPrescriptionReps, currPrescriptionNumber)
+        prescription = Prescription(currPrescriptionClientId,currPrescriptionPrescribingDoctor, currPrescriptionName, currPrescriptionDose, currPrescriptionReps, currPrescriptionNumber)
 
         db.session.add(prescription)
         db.session.commit()
@@ -220,16 +231,80 @@ def addPrescriptionView():
 def getPrescriptionView():
     reqJson = request.get_json()
 
-    currClientId = reqJson['id']
+    try:
+        currClientId = reqJson['id']
+    
+    except:
+        response = {'status': 0, 'error': 'No Client Id specified'}
+        return jsonify(response)
 
-    clientPrescriptions = Prescription.query.all()
+    else:
+        clientPrescriptions = Prescription.query.filter_by(clientId=currClientId)
 
-    clientPrescriptionsDict = {'prescriptions': []}
+        clientPrescriptionsDict = {'status': 1, 'prescriptions': []}
 
-    for clientPrescription in clientPrescriptions:
-        clientPrescriptionsDict['prescriptions'].append(makeJson(dict(clientPrescription.__dict__)))
+        for clientPrescription in clientPrescriptions:
+            clientPrescriptionsDict['prescriptions'].append(makeJson(dict(clientPrescription.__dict__)))
 
-    return jsonify(clientPrescriptionsDict)
+        return jsonify(clientPrescriptionsDict)
+
+@app.route('/orderDelivery')
+def orderDeliveryView():
+    try:
+        reqJson = request.get_json()
+
+        currPrescriptionId = reqJson['prescriptionId']
+        currDeliveryPharmacyName = reqJson['pharmacyName']
+        currDeliveryPharmacyAddress = reqJson['pharmacyAddress']
+
+    except:
+        response = {'status': 0, 'error': 'Invalid JSON key'}
+        return jsonify(response)
+
+    else:
+        d = AvailableDelivery(currPrescriptionId, currDeliveryPharmacyName, currDeliveryPharmacyAddress)
+
+        db.session.add(d)
+        db.session.commit()
+
+        response = {'status': 1}
+
+        return jsonify(response)
+
+@app.route('/claimDelivery')
+def claimDeliveryView():
+    try:
+        reqJson = request.get_json()
+
+        currDriverId = reqJson['driverId']
+        currDeliveryId = reqJson['deliveryId']
+
+    except:
+        response = {'status': 0, 'error': 'Invalid JSON key'}
+        return jsonify(response)
+
+    else:
+        d = ClaimedDelivery(currDriverId, currDeliveryId)
+        ad = AvailableDelivery.query.filter_by(deliverId=currDeliveryId)
+
+        db.session.add(d)
+        db.session.delete(ad)
+
+        db.session.commit()
+
+        response = {'status': 1}
+
+        return response
+
+@app.route('/driverAccountInfo', methods=["POST"])
+def driverAccountView():
+    reqJson = request.get_json()
+
+    driverId = reqJson['id']
+
+    return jsonify(makeJson(dict(Driver.query.filter_by(id=driverId).first().__dict__)))
+
+
 
 @app.route('/clients')
 def clientsView():
