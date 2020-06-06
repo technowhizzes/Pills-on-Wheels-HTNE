@@ -244,7 +244,8 @@ class ViewPrescriptions extends React.Component {
 
 const styles = StyleSheet.create({
 	body: {
-		borderWidth: 1,
+		borderTopWidth: 1,
+		borderBottomWidth: 1,
 		flex: 5,
 		width: "100%",
 	},
