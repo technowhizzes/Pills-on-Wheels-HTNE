@@ -29,7 +29,9 @@ class DriverLogin extends React.Component {
 				console.log(data);
 				const theJSON = data;
 				if (theJSON["status"] == 1) {
-					this.props.navigation.navigate("DeliverHome");
+					this.props.navigation.navigate("DeliverHome", {
+						driverId: data.driverId,
+					});
 				}
 				if (theJSON["status"] == 0) {
 					if (theJSON["error"] == "Incorrect Password") {
