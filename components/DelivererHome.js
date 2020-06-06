@@ -42,7 +42,7 @@ class DelivererHome extends React.Component {
 							marginBottom: 50,
 						}}
 					>
-						{this.state.name.toUpperCase()}'S HOMEPAGE
+						YOUR HOMEPAGE
 					</Text>
 					<TouchableOpacity style={styles.button}>
 						<Image

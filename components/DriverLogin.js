@@ -13,6 +13,55 @@ import {
 
 class DriverLogin extends React.Component {
 
+    checkLogin = async () => {
+        fetch('https://pillsonwheels.herokuapp.com/driverLogin', {
+            method: 'POST',
+            headers: new Headers({
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify(
+                { "email": this.state.email, "password": this.state.password }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const theJSON = data;
+                if (theJSON['status'] == 1) {
+                    this.props.navigation.navigate('DeliverHome')
+                }
+                if (theJSON['status'] == 0){
+                    if (theJSON['error'] == "Incorrect Password") {
+                        Alert.alert(
+                            "Login Failed",
+                            "The password you entered is incorrect",
+                            [
+                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ],
+                            { cancelable: false }
+                        );
+                    } else if (theJSON['error'] == "User does not exist") {
+                        Alert.alert(
+                            "Login Failed",
+                            "The email you entered does not exist.",
+                            [
+                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ],
+                            { cancelable: false }
+                        );
+                    
+                    }
+
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+
+    }
+
+
 	static navigationOptions = {
 		title: ' ',
 		headerLeft: null,
@@ -26,11 +75,9 @@ class DriverLogin extends React.Component {
 	
 	
 	state = {
-		firstName: "",
-		lastName: "",
-		address: "",
+
 		email: "",
-		mobileNum: "",
+		password: "",
 	};
 	render() {
 		return (
@@ -47,7 +94,7 @@ class DriverLogin extends React.Component {
 						<TextInput
 							placeholder="Email Address"
 							onChangeText={(text) =>
-								this.setState({ firstName: text })
+								this.setState({ email: text })
 							}
 							style={styles.input}
 						/>
@@ -55,12 +102,12 @@ class DriverLogin extends React.Component {
                             placeholder="Password"
                             secureTextEntry = {true}
 							onChangeText={(text) =>
-								this.setState({ lastName: text })
+								this.setState({ password: text })
 							}
 							style={styles.input}
 						/>
 					</View>
-					<TouchableOpacity style={styles.login} onPress={() => this.props.navigation.navigate('Profile')}>
+					<TouchableOpacity style={styles.login} onPress={this.checkLogin}>
 						<Text
 							style={{
 								color: "white",
@@ -69,7 +116,7 @@ class DriverLogin extends React.Component {
 								
 							}}
 						>
-							LOGIN PLEB
+							LOGIN
 						</Text>
 					</TouchableOpacity>
                     <TouchableOpacity style={styles.register} onPress={() => this.props.navigation.navigate('DriverVerify')}>
