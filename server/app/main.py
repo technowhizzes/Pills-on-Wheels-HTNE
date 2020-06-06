@@ -153,7 +153,7 @@ def driverSignUpView():
             return jsonify(response)
 
     except Exception as e:
-        response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters', 'Exception': e}
+        response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters', 'Exception': str(e)}
         return jsonify(response)
 
     try:
