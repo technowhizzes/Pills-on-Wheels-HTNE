@@ -7,7 +7,8 @@ import {
 	Text,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
-	Keyboard,
+    Keyboard,
+    Alert
 } from "react-native";
 
 class DriverLogin extends React.Component {
@@ -68,10 +69,10 @@ class DriverLogin extends React.Component {
 								
 							}}
 						>
-							LOGIN
+							LOGIN PLEB
 						</Text>
 					</TouchableOpacity>
-                    <TouchableOpacity style={styles.register} onPress={() => this.props.navigation.navigate('Verify')}>
+                    <TouchableOpacity style={styles.register} onPress={() => this.props.navigation.navigate('DriverVerify')}>
 						<Text
 							style={{
 								color: "white",
