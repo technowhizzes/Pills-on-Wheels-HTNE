@@ -16,7 +16,7 @@ class Client(db.Model):
     address = db.Column(db.String(255), nullable=False)
     phoneNum = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False)
-    password = db.Column(db.String(255))
+    password = db.Column(db.String(255), nullable=False)
 
     def __init__(self, firstName, lastName, address, phoneNum, email, password):
         self.firstName = firstName
@@ -93,8 +93,7 @@ def clientSignUpView():
         clientAddress = reqJson['address'] if reqJson['address'] else None
         clientPhoneNum = reqJson['phoneNum'] if reqJson['phoneNum'] else None
         clientEmail = reqJson['email'] if reqJson['email'] else None
-        clientPassword = reqJson['password'] if reqJson['password'] else None
-
+        clientPassword = reqJson['password']if reqJson['password'] else None
     except:
         response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters'}
         return jsonify(response)
