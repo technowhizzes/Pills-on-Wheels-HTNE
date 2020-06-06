@@ -304,8 +304,6 @@ def driverAccountView():
 
     return jsonify(makeJson(dict(Driver.query.filter_by(id=driverId).first().__dict__)))
 
-
-
 @app.route('/clients')
 def clientsView():
     clients = Client.query.all()
