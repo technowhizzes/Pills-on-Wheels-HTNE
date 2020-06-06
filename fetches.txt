@@ -1,0 +1,37 @@
+FOR THE CLIENT SIGNUP:
+fetch('pillsonwheels.herokuapp.com/clientSignUp', {
+    method: 'POST',
+    body: JSON.stringify({
+        'firstName': ENTEREDFIRSTNAME,
+        'lastName': ENTEREDLASTNAME,
+        'address': ENTEREDADDRESS,
+        'phoneNum': ENTEREDPHONENUMBER,
+        'email': ENTEREDEMAIL,
+        'password': ENTEREDPASSWORD
+    })
+});
+
+FOR THE DRIVER SIGNUP:
+fetch('pillsonwheels.herokuapp.com/driverSignUp', {
+    method: 'POST',
+    body: JSON.stringify({
+        'firstName': ENTEREDFIRSTNAME,
+        'lastName': ENTEREDLASTNAME,
+        'address': ENTEREDADDRESS,
+        'phoneNum': ENTEREDPHONENUMBER,
+        'email': ENTEREDEMAIL,
+        'password': ENTEREDPASSWORD
+    })
+});
+
+FOR THE PRESCRIPTION CREATION:
+fetch('pillsonwheels.herokuapp.com/addPrescription, {
+    method: 'POST'
+    body: JSON.stringify({
+        'userId': CURRENTUSERID // You have to store this in a session or persist across screens somehow. If you can't make a request to the backend and I will send the current user's ID when they LOGIN
+        'name': ENTEREDPRESCRIPTIONNAME,
+        'dose': ENTEREDPRESCRIPTIONDOSE,
+        'reps': ENTEREDPRESCRIPTIONREPS,
+        'number': ENTEREDPRESCRIPTIONNUMBERS
+    })
+});
