@@ -9,6 +9,7 @@ import DriverVerifyScreen from "./components/DriverVerify";
 import ClientLogin from "./components/ClientLogin";
 import DriverLogin from "./components/DriverLogin";
 import DriverAccount from "./components/DriverAccount";
+import DriverPayment from "./components/DriverPayment";
 
 const RootStack = createStackNavigator(
 	{
@@ -20,6 +21,7 @@ const RootStack = createStackNavigator(
 		ClientLoginScreen: { screen: ClientLogin },
 		DriverLoginScreen: { screen: DriverLogin },
 		DriverAccountScreen: { screen: DriverAccount },
+		DriverPaymentScreen: { screen: DriverPayment },
 	},
 	{
 		initialRouteName: "Home",
