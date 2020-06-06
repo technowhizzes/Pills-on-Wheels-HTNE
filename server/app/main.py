@@ -85,19 +85,29 @@ def homeView():
 
 @app.route('/clientSignUp', methods=['POST'])
 def clientSignUpView():
-    reqJson = request.get_json()
+    try:
+        reqJson = request.get_json()
 
-    clientFirstName = reqJson['firstName']
-    clientLastName = reqJson['lastName']
-    clientAddress = reqJson['address']
-    clientPhoneNum = reqJson['phoneNum']
-    clientEmail = reqJson['email']
-    clientPassword = reqJson['password']
+        clientFirstName = reqJson['firstName'] if reqJson['firstName'] else None
+        clientLastName = reqJson['lastName'] if reqJson['lastName'] else None
+        clientAddress = reqJson['address'] if reqJson['address'] else None
+        clientPhoneNum = reqJson['phoneNum'] if reqJson['phoneNum'] else None
+        clientEmail = reqJson['email'] if reqJson['email'] else None
+        clientPassword = reqJson['password'] if reqJson['password'] else None
 
-    client = Client(clientFirstName, clientLastName, clientAddress, clientPhoneNum, clientEmail, clientPassword)
+    except:
+        response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters'}
+        return jsonify(response)
 
-    db.session.add(client)
-    db.session.commit()
+    try:
+        client = Client(clientFirstName, clientLastName, clientAddress, clientPhoneNum, clientEmail, clientPassword)
+
+        db.session.add(client)
+        db.session.commit()
+    
+    except:
+        response = {'status': 0, 'error': 'Database error. Check if one of the entered fields is null or empty'}
+        return jsonify(response)
 
     response = {'status': 1}
 
@@ -105,34 +115,58 @@ def clientSignUpView():
 
 @app.route('/driverSignUp', methods=['POST'])
 def driverSignUpView():
-    reqJson = request.get_json()
+    try:
+        reqJson = request.get_json()
 
-    driverFirstName = reqJson['firstName']
-    driverLastName = reqJson['lastName']
-    driverAddress = reqJson['address']
-    driverPhoneNum = reqJson['phoneNum']
-    driverEmail = reqJson['email']
-    driverPassword = reqJson['password']
+        driverFirstName = reqJson['firstName'] if reqJson['firstName'] else None
+        driverLastName = reqJson['lastName'] if reqJson['lastName'] else None 
+        driverAddress = reqJson['address'] if reqJson['address'] else None
+        driverPhoneNum = reqJson['phoneNum'] if reqJson['phoneNum'] else None
+        driverEmail = reqJson['email'] if reqJson['email'] else None
+        driverPassword = reqJson['password'] if reqJson['password'] else None
 
-    driver = Driver(driverFirstName, driverLastName, driverAddress, driverPhoneNum, driverEmail, driverPassword)
+    except:
+        response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters'}
+        return jsonify(response)
 
-    db.session.add(driver)
-    db.session.commit()
+    try:
+        driver = Driver(driverFirstName, driverLastName, driverAddress, driverPhoneNum, driverEmail, driverPassword)
 
-    response = {'status': 1}
+        db.session.add(driver)
+        db.session.commit()
+
+        response = {'status': 1}
+
+    except:
+        response = {'status': 0, 'error': 'Database error. Check if one of the entered fields is empty or null'}
+        return jsonify(response)
+
     return jsonify(response) 
 
 @app.route('/addPrescription')
 def addPrescriptionView():
-    reqJson = request.get_json()
+    try:
+        reqJson = request.get_json()
 
-    currPrescriptionUserId = reqJson['id']
-    currPrescriptionName = reqJson['name']
-    currPrescriptionDose = reqJson['dose']
-    currPrescriptionReps = reqJson['reps']
-    currPrescriptionNumber = reqJson['number']
+        currPrescriptionUserId = reqJson['id'] if reqJson['id'] else None
+        currPrescriptionName = reqJson['name'] if reqJson['name'] else None
+        currPrescriptionDose = reqJson['dose'] if reqJson['dose'] else None
+        currPrescriptionReps = reqJson['reps'] if reqJson['reps'] else None
+        currPrescriptionNumber = reqJson['number'] if reqJson['number'] else None
+    
+    except:
+        response = {'status': 0, 'error': 'KeyError. The JSON passed in the request does not match the parameters'}
+        return jsonify(response)
 
-    prescription = Prescription(currPrescriptionUserId, currPrescriptionName, currPrescriptionDose, currPrescriptionReps, currPrescriptionNumber)
+    try:
+        prescription = Prescription(currPrescriptionUserId, currPrescriptionName, currPrescriptionDose, currPrescriptionReps, currPrescriptionNumber)
 
-    db.session.add(prescription)
-    db.session.commit()
+        db.session.add(prescription)
+        db.session.commit()
+        response = {'status': 1}
+
+    except:
+        response = {'status': 0, 'error': 'Database error. Check if one of the fields passed is empty or null'}
+        return jsonify(response)
+
+    return jsonify(response)
