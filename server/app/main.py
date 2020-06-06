@@ -152,8 +152,8 @@ def driverSignUpView():
             response = {'status': 0, 'error': 'That email already exists in the database'}
             return jsonify(response)
 
-    except:
-        response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters'}
+    except Exception as e:
+        response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters', 'Exception': e}
         return jsonify(response)
 
     try:
