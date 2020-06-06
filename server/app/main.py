@@ -118,7 +118,7 @@ def clientSignUpView():
 
     return jsonify(response)
 
-@app.route('/clientLogin')
+@app.route('/clientLogin', methods=["POST"])
 def clientLoginView():
     reqJson = request.get_json()
 
@@ -170,7 +170,7 @@ def driverSignUpView():
 
     return jsonify(response) 
 
-@app.route('/driverLogin')
+@app.route('/driverLogin', methods=["POST"])
 def driverLoginView():
     reqJson = request.get_json()
 
