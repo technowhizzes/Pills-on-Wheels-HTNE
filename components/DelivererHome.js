@@ -10,6 +10,18 @@ import {
 } from "react-native";
 
 class DelivererHome extends React.Component {
+
+	static navigationOptions = {
+        title: '',
+        headerLeft: null,
+        headerStyle: {
+            height: 0
+        },
+        headerShown: false
+
+	};
+	
+
 	state = { name: "test" };
 	render() {
 		return (
@@ -20,12 +32,13 @@ class DelivererHome extends React.Component {
 				>
 					<Image
 						source={require("../assets/logo.png")}
-						style={{ top: 0 }}
+						style={{ top: -10, height: 180, width: 180}}
 					/>
 					<Text
 						style={{
 							fontWeight: "bold",
-							fontSize: 20,
+							fontSize: 35,
+							textDecorationLine: 'underline',
 							marginBottom: 50,
 						}}
 					>
@@ -65,9 +78,10 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderRadius: 6,
 		backgroundColor: "white",
-		width: "80%",
-		height: "8%",
+		width: 310,
+		height: 60,
 		marginVertical: 15,
+		top: -40,
 		justifyContent: "center",
 		alignItems: "center",
 	},
@@ -80,6 +94,6 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		fontWeight: "bold",
-		fontSize: 18,
+		fontSize: 20,
 	},
 });

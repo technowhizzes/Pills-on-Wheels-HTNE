@@ -27,11 +27,11 @@ class HomeActivity extends React.Component {
                     <Text style={styles.getstarted}>GET STARTED AS A...</Text>
                 </ImageBackground>
                 <Image source={logo} style={styles.logo} />
-                <TouchableOpacity style={styles.customer} onPress={() => this.props.navigation.navigate('Profile')} > 
+                <TouchableOpacity style={styles.customer} onPress={() => this.props.navigation.navigate('Verify')} > 
                     <Text style={styles.customer_text}>CUSTOMER</Text>
                     <Image source={pill} style={styles.pill} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.deliverer}>
+                <TouchableOpacity style={styles.deliverer} onPress={() => this.props.navigation.navigate('DeliverHome')}>
                     <Text style={styles.deliverer_text}>DELIVERER</Text>
                     <Image source={car} style={styles.car} />
                 </TouchableOpacity>
