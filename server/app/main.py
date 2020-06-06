@@ -36,14 +36,16 @@ class Driver(db.Model):
     email = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     deliveries = db.Column(db.Integer, default=0)
+    paypalEmail = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, firstName, lastName, address, phoneNum, email, password):
+    def __init__(self, firstName, lastName, address, phoneNum, email, password, paypalEmail):
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
         self.address = address
         self.phoneNum = phoneNum
         self.password = password
+        self.paypalEmail = paypalEmail
 
 class Prescription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -157,6 +159,7 @@ def driverSignUpView():
         driverPhoneNum = reqJson['phoneNum'] if reqJson['phoneNum'] else None
         driverEmail = reqJson['email'] if reqJson['email'] else None
         driverPassword = generate_password_hash(reqJson['password'], method='sha256') if reqJson['password'] else None
+        driverPaypalEmail = reqJson['paypal'] if reqJson['paypal'] else None
 
         if (Driver.query.filter_by(email=driverEmail).first() != None):
             response = {'status': 0, 'error': 'That email already exists in the database'}
@@ -167,7 +170,7 @@ def driverSignUpView():
         return jsonify(response)
 
     try:
-        driver = Driver(driverFirstName, driverLastName, driverAddress, driverPhoneNum, driverEmail, driverPassword)
+        driver = Driver(driverFirstName, driverLastName, driverAddress, driverPhoneNum, driverEmail, driverPassword, driverPaypalEmail)
 
         db.session.add(driver)
         db.session.commit()
@@ -303,8 +306,6 @@ def driverAccountView():
     driverId = reqJson['id']
 
     return jsonify(makeJson(dict(Driver.query.filter_by(id=driverId).first().__dict__)))
-
-
 
 @app.route('/clients')
 def clientsView():
