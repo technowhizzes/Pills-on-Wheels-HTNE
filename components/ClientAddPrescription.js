@@ -110,7 +110,7 @@ class ClientAddPrescription extends React.Component {
 							}
 							style={styles.input}
 						/>
-                        <Text style={styles.doctor_header}>DELIVERY INSTRUCTIONS:</Text>
+                        <Text style={styles.doctor_header}>DOSAGE INSTRUCTIONS:</Text>
 						<TextInput
 							
 							onChangeText={(text) =>
@@ -119,27 +119,13 @@ class ClientAddPrescription extends React.Component {
 							style={styles.input}
 						/>
 					</View>
-					<TouchableOpacity style={styles.button}>
-						<Text
-							style={{
-								color: "white",
-								fontSize: 20,
-                                fontWeight: "bold",
-                                
-
-
-							}}
-						>
-							+ ADD PRESCRIPTION IMAGE
-						</Text>
-					</TouchableOpacity>
-
                     <TouchableOpacity style={styles.button2} onPress={this.RegisterinDB}>
 						<Text
 							style={{
 								color: "white",
 								fontSize: 20,
                                 fontWeight: "bold",
+                                
                                 
                                 
 
@@ -215,7 +201,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
-        top: -40,
+        top: -50,
         left: 50
 	},
 	logo: {
