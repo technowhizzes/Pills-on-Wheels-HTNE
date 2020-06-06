@@ -96,8 +96,8 @@ def clientSignUpView():
         clientEmail = reqJson['email'] if reqJson['email'] else None
         clientPassword = generate_password_hash(reqJson['password'], method='sha256') if reqJson['password'] else None
 
-        if (Client.query.filter_by(email=clientEmail) != None):
-            response = {'status': 0, 'error': 'That email already exists in the databse'}
+        if (Client.query.filter_by(email=clientEmail).first() != None):
+            response = {'status': 0, 'error': 'That email already exists in the database'}
             return jsonify(response)
 
     except:
