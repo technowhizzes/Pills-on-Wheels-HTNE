@@ -162,12 +162,11 @@ def driverSignUpView():
         db.session.add(driver)
         db.session.commit()
 
-        response = {'status': 1}
-
     except:
         response = {'status': 0, 'error': 'Database error. Check if one of the entered fields is empty or null'}
         return jsonify(response)
 
+    response = {'status': 1}
     return jsonify(response) 
 
 @app.route('/driverLogin', methods=["POST"])
