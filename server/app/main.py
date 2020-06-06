@@ -48,6 +48,7 @@ class Driver(db.Model):
 class Prescription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     clientId = db.Column(db.Integer, db.ForeignKey('client.id'))
+    prescribingDoctor = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     dose = db.Column(db.String(255), nullable=False)
     reps = db.Column(db.Integer, default=0)
@@ -228,48 +229,70 @@ def addPrescriptionView():
 def getPrescriptionView():
     reqJson = request.get_json()
 
-    currClientId = reqJson['id']
+    try:
+        currClientId = reqJson['id']
+    
+    except:
+        response = {'status': 0, 'error': 'No Client Id specified'}
+        return jsonify(response)
 
-    clientPrescriptions = Prescription.query.filter_by(clientId=currClientId)
+    else:
+        clientPrescriptions = Prescription.query.filter_by(clientId=currClientId)
 
-    clientPrescriptionsDict = {'prescriptions': []}
+        clientPrescriptionsDict = {'status': 1, 'prescriptions': []}
 
-    for clientPrescription in clientPrescriptions:
-        clientPrescriptionsDict['prescriptions'].append(makeJson(dict(clientPrescription.__dict__)))
+        for clientPrescription in clientPrescriptions:
+            clientPrescriptionsDict['prescriptions'].append(makeJson(dict(clientPrescription.__dict__)))
 
-    return jsonify(clientPrescriptionsDict)
+        return jsonify(clientPrescriptionsDict)
 
 @app.route('/orderDelivery')
 def orderDeliveryView():
-    reqJson = request.get_json()
+    try:
+        reqJson = request.get_json()
 
-    currPrescriptionId = reqJson['prescriptionId']
-    currDeliveryPharmacyName = reqJson['pharmacyName']
-    currDeliveryPharmacyAddress = reqJson['pharmacyAddress']
+        currPrescriptionId = reqJson['prescriptionId']
+        currDeliveryPharmacyName = reqJson['pharmacyName']
+        currDeliveryPharmacyAddress = reqJson['pharmacyAddress']
 
-    d = AvailableDelivery(currPrescriptionId, currDeliveryPharmacyName, currDeliveryPharmacyAddress)
+    except:
+        response = {'status': 0, 'error': 'Invalid JSON key'}
+        return jsonify(response)
 
-    db.session.add(d)
-    db.session.commit()
+    else:
+        d = AvailableDelivery(currPrescriptionId, currDeliveryPharmacyName, currDeliveryPharmacyAddress)
 
-    response = {'status': 1}
+        db.session.add(d)
+        db.session.commit()
 
-    return jsonify(response)
+        response = {'status': 1}
+
+        return jsonify(response)
 
 @app.route('/claimDelivery')
 def claimDeliveryView():
-    reqJson = request.get_json()
+    try:
+        reqJson = request.get_json()
 
-    currDriverId = reqJson['driverId']
-    currDeliveryId = reqJson['deliveryId']
+        currDriverId = reqJson['driverId']
+        currDeliveryId = reqJson['deliveryId']
 
-    d = ClaimedDelivery(currDriverId, currDeliveryId)
-    ad = AvailableDelivery.query.filter_by(deliverId=currDeliveryId)
+    except:
+        response = {'status': 0, 'error': 'Invalid JSON key'}
+        return jsonify(response)
 
-    db.session.add(d)
-    db.session.delete(ad)
+    else:
+        d = ClaimedDelivery(currDriverId, currDeliveryId)
+        ad = AvailableDelivery.query.filter_by(deliverId=currDeliveryId)
 
-    db.session.commit()
+        db.session.add(d)
+        db.session.delete(ad)
+
+        db.session.commit()
+
+        response = {'status': 1}
+
+        return response
 
 
 @app.route('/clients')
