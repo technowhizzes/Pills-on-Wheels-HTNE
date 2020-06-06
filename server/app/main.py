@@ -169,3 +169,24 @@ def addPrescriptionView():
         return jsonify(response)
 
     return jsonify(response)
+
+@app.route('/clients')
+def clientsView():
+    clients = Client.query.all()
+    clientDict = {'clients': []}
+
+    for client in clients:
+        clientDict['clients'].append(makeJson(dict(client.__dict__)))
+
+    return jsonify(clientDict)
+
+@app.route('/drivers')
+def clientsView():
+    drivers = Driver.query.all()
+    driverDict = {'drivers': []}
+
+    for client in drivers:
+        driverDict['drivers'].append(makeJson(dict(client.__dict__)))
+
+    return jsonify(driverDict)
+
