@@ -60,19 +60,27 @@ class Prescription(db.Model):
         self.reps = reps
         self.number = number
         
-class Delivery(db.Model):
+class AvailableDelivery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    driverId = db.Column(db.Integer, db.ForeignKey('driver.id'))
-    prescriptionId = db.Column(db.Integer, db.ForeignKey('prescription.id'))
+    prescriptionId = db.Column(db.String(255), db.ForeignKey('prescription.id'))
     pharmacyName = db.Column(db.String(255), nullable=False)
     pharmacyAddress = db.Column(db.String(255), nullable=False)
-    completed = db.Column(db.Boolean, default=False, nullable=False)
 
-    def __init__(self, driverId, prescriptionId, pharmacyName, pharmacyAddress):
-        self.driverId = driverId
+    def __init__(self, prescriptionId, pharmacyName, pharmacyAddress):
         self.prescriptionId = prescriptionId
         self.pharmacyName = pharmacyName
         self.pharmacyAddress = pharmacyAddress
+
+class ClaimedDelivery(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    driverId = db.Column(db.Integer, db.ForeignKey('driver.id'))
+    deliveryId = db.Column(db.Integer, db.ForeignKey('available_delivery.id'))
+    completed = db.Column(db.Boolean, default=False, nullable=False)
+
+    def __init__(self, driverId, deliveryId):
+        self.driverId = driverId
+        self.deliveryId = deliveryId
+
 
 # GLOBAL FUNCTIONS
 def makeJson(result):
@@ -148,7 +156,7 @@ def driverSignUpView():
         driverEmail = reqJson['email'] if reqJson['email'] else None
         driverPassword = generate_password_hash(reqJson['password'], method='sha256') if reqJson['password'] else None
 
-        if (Driver.query.filter_by(driverEmail).first() != None):
+        if (Driver.query.filter_by(email=driverEmail).first() != None):
             response = {'status': 0, 'error': 'That email already exists in the database'}
             return jsonify(response)
 
@@ -222,7 +230,7 @@ def getPrescriptionView():
 
     currClientId = reqJson['id']
 
-    clientPrescriptions = Prescription.query.all()
+    clientPrescriptions = Prescription.query.filter_by(clientId=currClientId)
 
     clientPrescriptionsDict = {'prescriptions': []}
 
@@ -230,6 +238,39 @@ def getPrescriptionView():
         clientPrescriptionsDict['prescriptions'].append(makeJson(dict(clientPrescription.__dict__)))
 
     return jsonify(clientPrescriptionsDict)
+
+@app.route('/orderDelivery')
+def orderDeliveryView():
+    reqJson = request.get_json()
+
+    currPrescriptionId = reqJson['prescriptionId']
+    currDeliveryPharmacyName = reqJson['pharmacyName']
+    currDeliveryPharmacyAddress = reqJson['pharmacyAddress']
+
+    d = AvailableDelivery(currPrescriptionId, currDeliveryPharmacyName, currDeliveryPharmacyAddress)
+
+    db.session.add(d)
+    db.session.commit()
+
+    response = {'status': 1}
+
+    return jsonify(response)
+
+@app.route('/claimDelivery')
+def claimDeliveryView():
+    reqJson = request.get_json()
+
+    currDriverId = reqJson['driverId']
+    currDeliveryId = reqJson['deliveryId']
+
+    d = ClaimedDelivery(currDriverId, currDeliveryId)
+    ad = AvailableDelivery.query.filter_by(deliverId=currDeliveryId)
+
+    db.session.add(d)
+    db.session.delete(ad)
+
+    db.session.commit()
+
 
 @app.route('/clients')
 def clientsView():
