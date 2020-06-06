@@ -42,7 +42,7 @@ class ProfileActivity extends React.Component {
                     <Image source={pill} style={styles.pill} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.account}>
-                    <Text style={styles.account_text}>VIEW ACCOUNT</Text>
+                    <Text style={styles.account_text} onPress={() => this.props.navigation.navigate('ClientAccountScreen', { id: itemId })}>VIEW ACCOUNT</Text>
                     <Image source={man} style={styles.man} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.prescriptions} onPress={() => this.props.navigation.navigate('ViewPrescriptionsScreen', { id: itemId })}>
