@@ -9,6 +9,11 @@ import pill from '../assets/pill_logo.png';
 import man from '../assets/man.png'
 import prescription from '../assets/prescription_image.png';
 
+
+
+
+
+
 class ProfileActivity extends React.Component {
 
     static navigationOptions = {
@@ -22,13 +27,17 @@ class ProfileActivity extends React.Component {
     };
 
     render() {
+
+        const itemId = this.props.navigation.getParam('id', 'NO-ID');
+        
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.background_image} source={background}>
                     <Text style={styles.getstarted}>YOUR HOMEPAGE</Text>
+                    <Text></Text>
                 </ImageBackground>
                 <Image source={logo} style={styles.logo} />
-                <TouchableOpacity style={styles.customer} > 
+                <TouchableOpacity style={styles.customer} >
                     <Text style={styles.customer_text}>ORDER PRESCRIPTION</Text>
                     <Image source={pill} style={styles.pill} />
                 </TouchableOpacity>
@@ -36,11 +45,11 @@ class ProfileActivity extends React.Component {
                     <Text style={styles.account_text}>VIEW ACCOUNT</Text>
                     <Image source={man} style={styles.man} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.prescriptions}>
+                <TouchableOpacity style={styles.prescriptions} onPress={() => this.props.navigation.navigate('ViewPrescriptionsScreen', { id: itemId })}>
                     <Text style={styles.prescription_text}>VIEW PRESCRIPTIONS</Text>
                     <Image source={prescription} style={styles.prescription} />
                 </TouchableOpacity>
-                
+
 
             </View>
         );
@@ -87,7 +96,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#000000'
 
-        
+
     },
     customer_text: {
         fontSize: 20,
@@ -116,18 +125,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#000000'
- 
+
     },
     pill: {
         width: 40,
-        height: 40, 
+        height: 40,
         bottom: 15,
         left: 20
 
     },
     man: {
         width: 50,
-        height: 50, 
+        height: 50,
         bottom: 15,
         left: 25
     },
@@ -148,7 +157,7 @@ const styles = StyleSheet.create({
     },
     prescription: {
         width: 40,
-        height: 40, 
+        height: 40,
         bottom: 15,
         left: 20
     },

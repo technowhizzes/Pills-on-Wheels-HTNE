@@ -28,7 +28,7 @@ class ClientLogin extends React.Component {
                 console.log(data);
                 const theJSON = data;
                 if (theJSON['status'] == 1) {
-                    this.props.navigation.navigate('Profile')
+                    this.props.navigation.navigate('Profile', { id: theJSON['clientId'] })
                 }
                 if (theJSON['status'] == 0){
                     if (theJSON['error'] == "Incorrect password") {
