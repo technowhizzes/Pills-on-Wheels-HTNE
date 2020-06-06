@@ -7,24 +7,20 @@ import {
 	Text,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
-    Keyboard,
-    Alert
+	Keyboard,
+	Alert,
 } from "react-native";
 
 class DriverLogin extends React.Component {
-
 	static navigationOptions = {
-		title: ' ',
+		title: " ",
 		headerLeft: null,
-        headerStyle: {
-            height: 0
-        },
-        headerShown: false
-
-
+		headerStyle: {
+			height: 0,
+		},
+		headerShown: false,
 	};
-	
-	
+
 	state = {
 		firstName: "",
 		lastName: "",
@@ -40,9 +36,7 @@ class DriverLogin extends React.Component {
 						source={require("../assets/logo.png")}
 						style={styles.logo}
 					/>
-					<Text style={styles.text}>
-						LOGIN
-					</Text>
+					<Text style={styles.text}>LOGIN</Text>
 					<View style={styles.inputContainer}>
 						<TextInput
 							placeholder="Email Address"
@@ -52,33 +46,41 @@ class DriverLogin extends React.Component {
 							style={styles.input}
 						/>
 						<TextInput
-                            placeholder="Password"
-                            secureTextEntry = {true}
+							placeholder="Password"
+							secureTextEntry={true}
 							onChangeText={(text) =>
 								this.setState({ lastName: text })
 							}
 							style={styles.input}
 						/>
 					</View>
-					<TouchableOpacity style={styles.login} onPress={() => this.props.navigation.navigate('Profile')}>
+					<TouchableOpacity
+						style={styles.login}
+						onPress={() =>
+							this.props.navigation.navigate("Profile")
+						}
+					>
 						<Text
 							style={{
 								color: "white",
 								fontSize: 25,
 								fontWeight: "bold",
-								
 							}}
 						>
 							LOGIN PLEB
 						</Text>
 					</TouchableOpacity>
-                    <TouchableOpacity style={styles.register} onPress={() => this.props.navigation.navigate('DriverVerify')}>
+					<TouchableOpacity
+						style={styles.register}
+						onPress={() =>
+							this.props.navigation.navigate("DriverVerify")
+						}
+					>
 						<Text
 							style={{
 								color: "white",
 								fontSize: 18,
 								fontWeight: "bold",
-								
 							}}
 						>
 							NEED AN ACCOUNT? REGISTER HERE
@@ -101,9 +103,9 @@ const styles = StyleSheet.create({
 		width: "80%",
 		justifyContent: "center",
 		alignItems: "center",
-		top: -50
-    },
-    register: {
+		top: -50,
+	},
+	register: {
 		borderWidth: 1,
 		backgroundColor: "red",
 		borderRadius: 6,
@@ -111,14 +113,13 @@ const styles = StyleSheet.create({
 		width: "80%",
 		justifyContent: "center",
 		alignItems: "center",
-		top: -30
+		top: -30,
 	},
 	container: {
 		flex: 1,
 		backgroundColor: "#fff",
 		alignItems: "center",
-		justifyContent: "center"
-
+		justifyContent: "center",
 	},
 	input: {
 		borderWidth: 1,
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 5,
 		paddingVertical: 3,
 		margin: 10,
-		top: -80
+		top: -80,
 	},
 	inputContainer: {
 		// borderWidth: 1,
@@ -141,24 +142,23 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		backgroundColor: "#B3D1FF",
 		padding: 5,
-		top: -20
+		top: -20,
 	},
 	message: {
 		color: "white",
 		fontWeight: "bold",
-		fontSize: 17
+		fontSize: 17,
 	},
 	text: {
 		// borderWidth: 1,
 		fontSize: 30,
 		fontWeight: "bold",
 		marginBottom: 10,
-		top: -80
+		top: -80,
 	},
 	logo: {
 		top: -80,
 		width: 180,
-		height: 180
-	}
-	
+		height: 180,
+	},
 });
