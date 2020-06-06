@@ -152,8 +152,8 @@ def driverSignUpView():
             response = {'status': 0, 'error': 'That email already exists in the database'}
             return jsonify(response)
 
-    except:
-        response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters'}
+    except Exception as e:
+        response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters', 'Exception': e}
         return jsonify(response)
 
     try:
@@ -162,12 +162,11 @@ def driverSignUpView():
         db.session.add(driver)
         db.session.commit()
 
-        response = {'status': 1}
-
     except:
         response = {'status': 0, 'error': 'Database error. Check if one of the entered fields is empty or null'}
         return jsonify(response)
 
+    response = {'status': 1}
     return jsonify(response) 
 
 @app.route('/driverLogin', methods=["POST"])
