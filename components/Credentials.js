@@ -6,6 +6,8 @@ import {
 	Image,
 	Text,
 	TouchableOpacity,
+	TouchableWithoutFeedback,
+	Keyboard,
 } from "react-native";
 
 class IntroScreen extends React.Component {
@@ -20,67 +22,71 @@ class IntroScreen extends React.Component {
 		console.log(this.state);
 
 		return (
-			<View style={styles.container}>
-				<Image
-					source={require("../assets/logo.png")}
-					style={{ borderWidth: 1 }}
-				/>
-				<Text style={styles.text}>
-					ENTER YOUR INFORMATION TO GET STARTED!
-				</Text>
-				<View style={styles.inputContainer}>
-					<TextInput
-						placeholder="First Name"
-						onChangeText={(text) =>
-							this.setState({ firstName: text })
-						}
-						style={styles.input}
+			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+				<View style={styles.container}>
+					<Image
+						source={require("../assets/logo.png")}
+						style={{ top: 0 }}
 					/>
-					<TextInput
-						placeholder="Last Name"
-						onChangeText={(text) =>
-							this.setState({ lastName: text })
-						}
-						style={styles.input}
-					/>
-					<TextInput
-						placeholder="Address"
-						onChangeText={(text) =>
-							this.setState({ address: text })
-						}
-						style={styles.input}
-					/>
-					<TextInput
-						placeholder="Email Address"
-						onChangeText={(text) => this.setState({ email: text })}
-						style={styles.input}
-					/>
-					<TextInput
-						placeholder="Mobile Number"
-						onChangeText={(text) =>
-							this.setState({ mobileNum: text })
-						}
-						style={styles.input}
-					/>
-				</View>
-				<View style={styles.messageContainer}>
-					<Text style={styles.message}>
-						THIS INFORMATION HELPS US IN VERIFICATION AS WELL AS
-						ALLOWING DRIVERS TO DELIVER STRAIGHT TO YOUR HOME
+					<Text style={styles.text}>
+						ENTER YOUR INFORMATION TO GET STARTED!
 					</Text>
+					<View style={styles.inputContainer}>
+						<TextInput
+							placeholder="First Name"
+							onChangeText={(text) =>
+								this.setState({ firstName: text })
+							}
+							style={styles.input}
+						/>
+						<TextInput
+							placeholder="Last Name"
+							onChangeText={(text) =>
+								this.setState({ lastName: text })
+							}
+							style={styles.input}
+						/>
+						<TextInput
+							placeholder="Address"
+							onChangeText={(text) =>
+								this.setState({ address: text })
+							}
+							style={styles.input}
+						/>
+						<TextInput
+							placeholder="Email Address"
+							onChangeText={(text) =>
+								this.setState({ email: text })
+							}
+							style={styles.input}
+						/>
+						<TextInput
+							placeholder="Mobile Number"
+							onChangeText={(text) =>
+								this.setState({ mobileNum: text })
+							}
+							style={styles.input}
+						/>
+					</View>
+					<View style={styles.messageContainer}>
+						<Text style={styles.message}>
+							THIS INFORMATION HELPS US IN VERIFICATION AS WELL AS
+							ALLOWING DRIVERS TO DELIVER STRAIGHT TO YOUR HOME
+						</Text>
+					</View>
+					<TouchableOpacity style={styles.button}>
+						<Text
+							style={{
+								color: "white",
+								fontSize: 17,
+								fontWeight: "bold",
+							}}
+						>
+							VERIFY MY ID
+						</Text>
+					</TouchableOpacity>
 				</View>
-				<TouchableOpacity style={styles.button}>
-					<Text
-						style={{
-							color: "white",
-							fontSize: 17,
-							fontWeight: "bold",
-						}}
-					>
-						VERIFY MY ID
-					</Text>
-				</TouchableOpacity>
-			</View>
+			</TouchableWithoutFeedback>
 		);
 	}
 }
