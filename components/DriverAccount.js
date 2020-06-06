@@ -1,5 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
+import {
+	View,
+	StyleSheet,
+	Text,
+	KeyboardAvoidingView,
+	Image,
+	TouchableOpacity,
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -56,7 +63,25 @@ class DriverAccount extends React.Component {
 		return (
 			<View style={styles.container}>
 				<View style={styles.header}>
-					<Text>Top</Text>
+					<Image
+						source={require("../assets/logo.png")}
+						style={{
+							flex: 1,
+							aspectRatio: 1,
+							left: 30,
+						}}
+					/>
+					<Text
+						style={{
+							flex: 3,
+							fontWeight: "bold",
+							fontSize: 25,
+							textAlign: "center",
+							textAlignVertical: "center",
+						}}
+					>
+						YOUR ACCOUNT
+					</Text>
 				</View>
 				<View style={styles.fields}>
 					<View style={styles.field}>
@@ -91,7 +116,31 @@ class DriverAccount extends React.Component {
 					</View>
 				</View>
 				<View style={styles.footer}>
-					<Text>Footer</Text>
+					<TouchableOpacity style={styles.button}>
+						<Text
+							style={{
+								color: "white",
+								fontWeight: "bold",
+								fontSize: 16,
+							}}
+						>
+							CONFIGURE PAYMENT METHODS
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => this.props.navigation.pop(1)}
+					>
+						<Text
+							style={{
+								color: "white",
+								fontWeight: "bold",
+								fontSize: 16,
+							}}
+						>
+							RETURN
+						</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 		);
@@ -101,6 +150,16 @@ class DriverAccount extends React.Component {
 export default DriverAccount;
 
 const styles = StyleSheet.create({
+	button: {
+		width: "70%",
+		height: "20%",
+		borderWidth: 1,
+		borderRadius: 6,
+		backgroundColor: "red",
+		marginVertical: 20,
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	container: {
 		flex: 1,
 		justifyContent: "center",
@@ -109,7 +168,6 @@ const styles = StyleSheet.create({
 	field: {
 		flexDirection: "row",
 		flex: 1,
-		borderWidth: 1,
 		marginVertical: 10,
 		alignContent: "space-between",
 	},
@@ -123,8 +181,8 @@ const styles = StyleSheet.create({
 	},
 	fields: {
 		flex: 3,
-		borderWidth: 1,
 		width: "100%",
+		padding: 25,
 	},
 	fieldText: {
 		flex: 1,
@@ -137,10 +195,12 @@ const styles = StyleSheet.create({
 		flex: 2,
 		borderWidth: 1,
 		width: "100%",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	header: {
 		flex: 1,
-		borderWidth: 1,
+		flexDirection: "row",
 		width: "100%",
 	},
 });
