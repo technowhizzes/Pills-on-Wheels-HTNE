@@ -12,6 +12,53 @@ import {
 
 class DriverVerifyScreen extends React.Component {
 
+    goToLogin = async () => {
+		this.props.navigation.navigate('DriverLoginScreen')
+	}
+
+	RegisterinDB = async () => {
+		if (this.state.firstName && this.state.lastName && this.state.mobileNum.length == 10 && this.state.address && this.state.password.length > 7 && validator.isEmail(this.state.email)) {
+			fetch('https://pillsonwheels.herokuapp.com/clientSignUp', {
+				method: 'POST',
+				headers: new Headers({
+					"Accept": "application/json",
+					"Content-Type": "application/json"
+				}),
+				body: JSON.stringify(
+					{ 'firstName': this.state.firstName, 'lastName': this.state.lastName, 'address': this.state.address, 'phoneNum': this.state.mobileNum, 'email': this.state.email, "password": this.state.password }),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log('Success:', data);
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+				});
+
+			this.goToLogin
+			this.props.navigation.navigate('ClientLoginScreen')
+		} if (!this.state.password || !this.state.firstName || !this.state.lastName || !this.state.address || !this.state.mobileNum || !this.state.email) {
+			Alert.alert(
+				"Registration Failed",
+				"Please ensure all fields are entered correctly.",
+				[
+					{ text: "OK", onPress: () => console.log("OK Pressed") }
+				],
+				{ cancelable: false }
+			);
+		} if (this.state.password.length < 8) {
+			Alert.alert(
+				"Registration Failed",
+				"Password must be more than 7 characters.",
+				[
+					{ text: "OK", onPress: () => console.log("OK Pressed") }
+				],
+				{ cancelable: false }
+			);
+		}
+	}
+
+
 	static navigationOptions = {
 		title: ' ',
 		headerLeft: null,
