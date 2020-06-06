@@ -24,7 +24,7 @@ class DriverVerifyScreen extends React.Component {
 			this.state.password.length > 7 &&
 			validator.isEmail(this.state.email)
 		) {
-			fetch("https://pillsonwheels.herokuapp.com/clientSignUp", {
+			fetch("https://pillsonwheels.herokuapp.com/driverSignUp", {
 				method: "POST",
 				headers: new Headers({
 					Accept: "application/json",
@@ -151,7 +151,7 @@ class DriverVerifyScreen extends React.Component {
 					</View>
 					<TouchableOpacity
 						style={styles.button}
-						onPress={() => this.RegisterinDB}
+						onPress={this.RegisterinDB}
 					>
 						<Text
 							style={{
