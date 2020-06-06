@@ -96,8 +96,8 @@ def clientSignUpView():
         clientEmail = reqJson['email'] if reqJson['email'] else None
         clientPassword = generate_password_hash(reqJson['password'], method='sha256') if reqJson['password'] else None
 
-        if (Client.query.filter_by(email=clientEmail) != None):
-            response = {'status': 0, 'error': 'That email already exists in the databse'}
+        if (Client.query.filter_by(email=clientEmail).first() != None):
+            response = {'status': 0, 'error': 'That email already exists in the database'}
             return jsonify(response)
 
     except:
@@ -118,7 +118,7 @@ def clientSignUpView():
 
     return jsonify(response)
 
-@app.route('/clientLogin')
+@app.route('/clientLogin', methods=["POST"])
 def clientLoginView():
     reqJson = request.get_json()
 
@@ -170,7 +170,7 @@ def driverSignUpView():
 
     return jsonify(response) 
 
-@app.route('/driverLogin')
+@app.route('/driverLogin', methods=["POST"])
 def driverLoginView():
     reqJson = request.get_json()
 
