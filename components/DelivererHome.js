@@ -10,20 +10,26 @@ import {
 } from "react-native";
 
 class DelivererHome extends React.Component {
-
 	static navigationOptions = {
-        title: '',
-        headerLeft: null,
-        headerStyle: {
-            height: 0
-        },
-        headerShown: false
-
+		title: "",
+		headerLeft: null,
+		headerStyle: {
+			height: 0,
+		},
+		headerShown: false,
 	};
-	
 
-	state = { name: "test" };
+	// state = { name: "test", driverId: null };
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			driverId: this.props.navigation.getParam("driverId", "-1"),
+		};
+		console.log("home id:", this.state.driverId);
+	}
 	render() {
+		// console.log(this.state);
 		return (
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<ImageBackground
@@ -32,13 +38,13 @@ class DelivererHome extends React.Component {
 				>
 					<Image
 						source={require("../assets/logo.png")}
-						style={{ top: -10, height: 180, width: 180}}
+						style={{ top: -10, height: 180, width: 180 }}
 					/>
 					<Text
 						style={{
 							fontWeight: "bold",
 							fontSize: 35,
-							textDecorationLine: 'underline',
+							textDecorationLine: "underline",
 							marginBottom: 50,
 						}}
 					>
@@ -51,7 +57,17 @@ class DelivererHome extends React.Component {
 						/>
 						<Text style={styles.buttonText}>START DELIVERY</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.button}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() =>
+							this.props.navigation.navigate(
+								"DriverAccountScreen",
+								{
+									driverId: this.state.driverId,
+								}
+							)
+						}
+					>
 						<Image
 							source={require("../assets/man.png")}
 							style={styles.buttonImg}

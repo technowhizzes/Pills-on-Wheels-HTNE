@@ -1,5 +1,7 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class DriverAccount extends React.Component {
 	static navigationOptions = {
@@ -11,9 +13,88 @@ class DriverAccount extends React.Component {
 		headerShown: false,
 	};
 
-	state = {};
+	// state = {};
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			driverId: this.props.navigation.getParam("driverId", "-1"),
+		};
+	}
+
+	componentDidMount() {
+		this.getInfoFromDb();
+	}
+
+	getInfoFromDb = async () => {
+		let res = await fetch(
+			"https://pillsonwheels.herokuapp.com/driverAccountInfo",
+			{
+				method: "POST",
+				headers: new Headers({
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				}),
+				body: JSON.stringify({
+					id: this.state.driverId,
+				}),
+			}
+		);
+		let data = await res.json();
+		this.setState({
+			firstName: data.firstName,
+			lastName: data.lastName,
+			address: data.address,
+			email: data.email,
+			mobileNum: data.phoneNum,
+		});
+		console.log(this.state);
+	};
+
 	render() {
-		return <View></View>;
+		return (
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<Text>Top</Text>
+				</View>
+				<View style={styles.fields}>
+					<View style={styles.field}>
+						<Text style={styles.fieldText}>First Name:</Text>
+						<Text style={styles.fieldInput}>
+							{this.state.firstName}
+						</Text>
+					</View>
+					<View style={styles.field}>
+						<Text style={styles.fieldText}>Last Name:</Text>
+						<Text style={styles.fieldInput}>
+							{this.state.lastName}
+						</Text>
+					</View>
+					<View style={styles.field}>
+						<Text style={styles.fieldText}>Address:</Text>
+						<Text style={styles.fieldInput}>
+							{this.state.address}
+						</Text>
+					</View>
+					<View style={styles.field}>
+						<Text style={styles.fieldText}>Email Address:</Text>
+						<Text style={styles.fieldInput}>
+							{this.state.email}
+						</Text>
+					</View>
+					<View style={styles.field}>
+						<Text style={styles.fieldText}>Mobile:</Text>
+						<Text style={styles.fieldInput}>
+							{this.state.mobileNum}
+						</Text>
+					</View>
+				</View>
+				<View style={styles.footer}>
+					<Text>Footer</Text>
+				</View>
+			</View>
+		);
 	}
 }
 
@@ -24,5 +105,42 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+	},
+	field: {
+		flexDirection: "row",
+		flex: 1,
+		borderWidth: 1,
+		marginVertical: 10,
+		alignContent: "space-between",
+	},
+	fieldInput: {
+		flex: 1,
+		borderWidth: 1,
+		borderColor: "grey",
+		color: "grey",
+		textAlignVertical: "center",
+		textAlign: "center",
+	},
+	fields: {
+		flex: 3,
+		borderWidth: 1,
+		width: "100%",
+	},
+	fieldText: {
+		flex: 1,
+		textAlignVertical: "center",
+		textAlign: "center",
+		fontWeight: "bold",
+		fontSize: 20,
+	},
+	footer: {
+		flex: 2,
+		borderWidth: 1,
+		width: "100%",
+	},
+	header: {
+		flex: 1,
+		borderWidth: 1,
+		width: "100%",
 	},
 });
