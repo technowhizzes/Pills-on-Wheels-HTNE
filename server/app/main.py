@@ -54,8 +54,9 @@ class Prescription(db.Model):
     reps = db.Column(db.Integer, default=0)
     number = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, clientId, name, dose, reps, number):
+    def __init__(self, clientId, doctor, name, dose, reps, number):
         self.clientId = clientId
+        self.prescribingDoctor = doctor
         self.name = name
         self.dose = dose
         self.reps = reps
@@ -202,7 +203,8 @@ def addPrescriptionView():
     try:
         reqJson = request.get_json()
 
-        currPrescriptionUserId = reqJson['id'] if reqJson['id'] else None
+        currPrescriptionClientId = reqJson['id'] if reqJson['id'] else None
+        currPrescriptionPrescribingDoctor = reqJson['doctor'] if reqJson['doctor'] else None
         currPrescriptionName = reqJson['name'] if reqJson['name'] else None
         currPrescriptionDose = reqJson['dose'] if reqJson['dose'] else None
         currPrescriptionReps = reqJson['reps'] if reqJson['reps'] else None
@@ -213,7 +215,7 @@ def addPrescriptionView():
         return jsonify(response)
 
     try:
-        prescription = Prescription(currPrescriptionUserId, currPrescriptionName, currPrescriptionDose, currPrescriptionReps, currPrescriptionNumber)
+        prescription = Prescription(currPrescriptionClientId,currPrescriptionPrescribingDoctor, currPrescriptionName, currPrescriptionDose, currPrescriptionReps, currPrescriptionNumber)
 
         db.session.add(prescription)
         db.session.commit()
@@ -293,6 +295,15 @@ def claimDeliveryView():
         response = {'status': 1}
 
         return response
+
+@app.route('/driverAccountInfo', methods=["POST"])
+def driverAccountView():
+    reqJson = request.get_json()
+
+    driverId = reqJson['id']
+
+    return jsonify(makeJson(dict(Driver.query.filter_by(id=driverId).first().__dict__)))
+
 
 
 @app.route('/clients')
