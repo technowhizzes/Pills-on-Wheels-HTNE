@@ -299,6 +299,14 @@ def claimDeliveryView():
 
         return response
 
+@app.route('/clientAccountInfo', methods=["POST"])
+def clientAccountView():
+    reqJson = request.get_json()
+
+    clientId = reqJson['id']
+
+    return jsonify(makeJson(dict(Client.query.filter_by(id=clientId).first().__dict__)))
+
 @app.route('/driverAccountInfo', methods=["POST"])
 def driverAccountView():
     reqJson = request.get_json()
