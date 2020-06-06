@@ -26,10 +26,6 @@ class Client(db.Model):
         self.phoneNum = phoneNum
         self.email = email
         self.password = password
-        self.paypalEmail = paypalEmail
-        self.cardNumber = cardNumber
-        self.cardCVV = cardCVV
-        self.cardExpiry = cardExpiry
 
 class Driver(db.Model):
     id = db.Column(db.Integer, primary_key=True)
