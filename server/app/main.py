@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Config(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
@@ -93,7 +94,12 @@ def clientSignUpView():
         clientAddress = reqJson['address'] if reqJson['address'] else None
         clientPhoneNum = reqJson['phoneNum'] if reqJson['phoneNum'] else None
         clientEmail = reqJson['email'] if reqJson['email'] else None
-        clientPassword = reqJson['password']if reqJson['password'] else None
+        clientPassword = generate_password_hash(reqJson['password'], method='sha256') if reqJson['password'] else None
+
+        if (Client.query.filter_by(email=clientEmail) != None):
+            response = {'status': 0, 'error': 'That email already exists in the databse'}
+            return jsonify(response)
+
     except:
         response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters'}
         return jsonify(response)
@@ -112,6 +118,24 @@ def clientSignUpView():
 
     return jsonify(response)
 
+@app.route('/clientLogin')
+def clientLoginView():
+    reqJson = request.get_json()
+
+    client = Client.query.filter_by(email=reqJson['email']).first()
+
+    if (client):
+        if (check_password_hash(client.password, reqJson['password'])):
+            response = {'status': 1, 'clientId': client.id}
+
+        else:
+            response = {'status': 0, 'error': 'Incorrect password'}
+
+    else:
+        response = {'status': 0, 'error': 'User does not exist'}
+
+    return jsonify(response)
+
 @app.route('/driverSignUp', methods=['POST'])
 def driverSignUpView():
     try:
@@ -122,7 +146,11 @@ def driverSignUpView():
         driverAddress = reqJson['address'] if reqJson['address'] else None
         driverPhoneNum = reqJson['phoneNum'] if reqJson['phoneNum'] else None
         driverEmail = reqJson['email'] if reqJson['email'] else None
-        driverPassword = reqJson['password'] if reqJson['password'] else None
+        driverPassword = generate_password_hash(reqJson['password'], method='sha256') if reqJson['password'] else None
+
+        if (Driver.query.filter_by(driverEmail).first() != None):
+            response = {'status': 0, 'error': 'That email already exists in the database'}
+            return jsonify(response)
 
     except:
         response = {'status': 0, 'error': 'Key error. The JSON passed in the request does not match the parameters'}
@@ -141,6 +169,25 @@ def driverSignUpView():
         return jsonify(response)
 
     return jsonify(response) 
+
+@app.route('/driverLogin')
+def driverLoginView():
+    reqJson = request.get_json()
+
+    driver = Driver.query.filter_by(email=reqJson["email"]).first()
+
+    if (driver):
+        if (check_password_hash(driver.password,reqJson["password"])):
+            response = {'status': 1, 'driverId': driver.id}
+
+        else:
+            response = {'status': 0, 'error': 'Incorrect Password'}
+
+    else:
+        response = {'status': 0, 'error': 'User does not exist'}
+
+    return jsonify(response)
+
 
 @app.route('/addPrescription', methods=["POST"])
 def addPrescriptionView():
@@ -181,7 +228,7 @@ def clientsView():
     return jsonify(clientDict)
 
 @app.route('/drivers')
-def clientsView():
+def driversView():
     drivers = Driver.query.all()
     driverDict = {'drivers': []}
 
@@ -189,4 +236,8 @@ def clientsView():
         driverDict['drivers'].append(makeJson(dict(client.__dict__)))
 
     return jsonify(driverDict)
+
+@app.route('/pleb')
+def plebView():
+    return '<h1>Pleb</h1>'
 

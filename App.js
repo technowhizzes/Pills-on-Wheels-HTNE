@@ -7,6 +7,7 @@ import VerifyScreen from './components/Verify';
 import DelivererHome from './components/DelivererHome';
 import DriverVerifyScreen from './components/DriverVerify';
 import ClientLogin from './components/ClientLogin';
+import DriverLogin from './components/DriverLogin'
 
 
 const RootStack = createStackNavigator(
@@ -16,7 +17,8 @@ const RootStack = createStackNavigator(
     Verify: { screen: VerifyScreen },
     DeliverHome: { screen: DelivererHome },
     DriverVerify: { screen: DriverVerifyScreen },
-    ClientLoginScreen: { screen: ClientLogin }
+    ClientLoginScreen: { screen: ClientLogin },
+    DriverLoginScreen: { screen: DriverLogin }
   },
   {
     initialRouteName: 'Home'

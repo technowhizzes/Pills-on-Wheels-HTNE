@@ -31,7 +31,7 @@ class HomeActivity extends React.Component {
                     <Text style={styles.customer_text}>CUSTOMER</Text>
                     <Image source={pill} style={styles.pill} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.deliverer} onPress={() => this.props.navigation.navigate('DriverVerify')}>
+                <TouchableOpacity style={styles.deliverer} onPress={() => this.props.navigation.navigate('DriverLoginScreen')}>
                     <Text style={styles.deliverer_text}>DELIVERER</Text>
                     <Image source={car} style={styles.car} />
                 </TouchableOpacity>

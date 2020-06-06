@@ -10,7 +10,7 @@ import {
 	Keyboard,
 } from "react-native";
 
-class ClientLogin extends React.Component {
+class DriverLogin extends React.Component {
 
 	static navigationOptions = {
 		title: ' ',
@@ -89,7 +89,7 @@ class ClientLogin extends React.Component {
 	}
 }
 
-export default ClientLogin;
+export default DriverLogin;
 
 const styles = StyleSheet.create({
 	login: {

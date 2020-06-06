@@ -12,15 +12,6 @@ import {
 	Alert,
 } from "react-native";
 
-// const RegisterinDB = () => {
-// 	// if (this.firstName) {
-// 	// 	console.log("reezan is a pleb");
-// 	// }
-// 	fetch('')
-// 	console.log('pleb');
-// }
-
-
 
 class VerifyScreen extends React.Component {
 
@@ -48,13 +39,6 @@ class VerifyScreen extends React.Component {
 				});
 
 			this.goToLogin
-			// Alert.alert(
-			// 	"Registration Successful!"
-			// 	[
-			// 	{ text: "OK", onPress: () => console.log("OK Pressed") }
-			// 	],
-			// 	{ cancelable: false }
-			// );
 			this.props.navigation.navigate('ClientLoginScreen')
 		} if (!this.state.password || !this.state.firstName || !this.state.lastName || !this.state.address || !this.state.mobileNum || !this.state.email) {
 			Alert.alert(
