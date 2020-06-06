@@ -217,6 +217,21 @@ def addPrescriptionView():
 
     return jsonify(response)
 
+@app.route('/getPrescriptions', methods=["POST"])
+def getPrescriptionView():
+    reqJson = request.get_json()
+
+    currClientId = reqJson['id']
+
+    clientPrescriptions = Prescription.query.all()
+
+    clientPrescriptionsDict = {'prescriptions': []}
+
+    for clientPrescription in clientPrescriptions:
+        clientPrescriptionsDict['prescriptions'].append(makeJson(dict(clientPrescription.__dict__)))
+
+    return jsonify(clientPrescriptionsDict)
+
 @app.route('/clients')
 def clientsView():
     clients = Client.query.all()
