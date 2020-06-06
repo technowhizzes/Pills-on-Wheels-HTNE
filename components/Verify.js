@@ -1,4 +1,5 @@
 import React from "react";
+import validator from 'validator';
 import {
 	View,
 	TextInput,
@@ -8,32 +9,95 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
+	Alert,
 } from "react-native";
 
+// const RegisterinDB = () => {
+// 	// if (this.firstName) {
+// 	// 	console.log("reezan is a pleb");
+// 	// }
+// 	fetch('')
+// 	console.log('pleb');
+// }
+
+
+
 class VerifyScreen extends React.Component {
+
+	goToLogin = async () => {
+		this.props.navigation.navigate('ClientLoginScreen')
+	}
+
+	RegisterinDB = async () => {
+		if (this.state.firstName && this.state.lastName && this.state.mobileNum.length == 10 && this.state.address && this.state.password.length > 7 && validator.isEmail(this.state.email)) {
+			fetch('https://pillsonwheels.herokuapp.com/clientSignUp', {
+				method: 'POST',
+				headers: new Headers({
+					"Accept": "application/json",
+					"Content-Type": "application/json"
+				}),
+				body: JSON.stringify(
+					{ 'firstName': this.state.firstName, 'lastName': this.state.lastName, 'address': this.state.address, 'phoneNum': this.state.mobileNum, 'email': this.state.email, "password": this.state.password }),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log('Success:', data);
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+				});
+
+			this.goToLogin
+			// Alert.alert(
+			// 	"Registration Successful!"
+			// 	[
+			// 	{ text: "OK", onPress: () => console.log("OK Pressed") }
+			// 	],
+			// 	{ cancelable: false }
+			// );
+			this.props.navigation.navigate('ClientLoginScreen')
+		} if (!this.state.password || !this.state.firstName || !this.state.lastName || !this.state.address || !this.state.mobileNum || !this.state.email) {
+			Alert.alert(
+				"Registration Failed",
+				"Please ensure all fields are entered correctly.",
+				[
+					{ text: "OK", onPress: () => console.log("OK Pressed") }
+				],
+				{ cancelable: false }
+			);
+		} if (this.state.password.length < 8) {
+			Alert.alert(
+				"Registration Failed",
+				"Password must be more than 7 characters.",
+				[
+					{ text: "OK", onPress: () => console.log("OK Pressed") }
+				],
+				{ cancelable: false }
+			);
+		}
+	}
 
 	static navigationOptions = {
 		title: ' ',
 		headerLeft: null,
-        headerStyle: {
-            height: 0
-        },
-        headerShown: false
+		headerStyle: {
+			height: 0
+		},
+		headerShown: false
 
 
 	};
-	
-	
+
+
 	state = {
 		firstName: "",
 		lastName: "",
 		address: "",
 		email: "",
 		mobileNum: "",
+		password: "",
 	};
 	render() {
-		console.log(this.state);
-
 		return (
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<View style={styles.container}>
@@ -82,23 +146,27 @@ class VerifyScreen extends React.Component {
 							}
 							style={styles.input}
 						/>
+
+						<TextInput
+							placeholder="Password"
+							secureTextEntry={true}
+							onChangeText={(text) =>
+								this.setState({ password: text })
+							}
+							style={styles.input}
+						/>
 					</View>
-					<View style={styles.messageContainer}>
-						<Text style={styles.message}>
-							THIS INFORMATION HELPS US IN VERIFICATION AS WELL AS
-							ALLOWING DRIVERS TO DELIVER STRAIGHT TO YOUR HOME
-						</Text>
-					</View>
-					<TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile')}>
+					<TouchableOpacity style={styles.button} onPress={this.RegisterinDB}>
 						<Text
 							style={{
 								color: "white",
-								fontSize: 17,
+								fontSize: 20,
 								fontWeight: "bold",
-								
+
+
 							}}
 						>
-							VERIFY MY ID
+							REGISTER
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -118,7 +186,7 @@ const styles = StyleSheet.create({
 		width: "80%",
 		justifyContent: "center",
 		alignItems: "center",
-		top: -10
+		top: -30
 	},
 	container: {
 		flex: 1,
@@ -134,38 +202,24 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 5,
 		paddingVertical: 3,
 		margin: 10,
-		top: -20
+		top: -50
 	},
 	inputContainer: {
 		// borderWidth: 1,
 		width: "100%",
 		// flex: 1,
 	},
-	messageContainer: {
-		width: "90%",
-		marginVertical: 10,
-		// borderWidth: 1,
-		borderRadius: 6,
-		backgroundColor: "#B3D1FF",
-		padding: 5,
-		top: -20
-	},
-	message: {
-		color: "white",
-		fontWeight: "bold",
-		fontSize: 17
-	},
 	text: {
 		// borderWidth: 1,
 		fontSize: 17,
 		fontWeight: "bold",
 		marginBottom: 10,
-		top: -20
+		top: -50
 	},
 	logo: {
-		top: -10,
+		top: -40,
 		width: 180,
 		height: 180
 	}
-	
+
 });
