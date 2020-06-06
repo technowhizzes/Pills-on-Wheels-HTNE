@@ -127,7 +127,7 @@ class ViewPrescriptions extends React.Component {
                 {fields}
                 <Image source={logo} style={styles.logo} />
                 <Text style={styles.title}>YOUR PRESCRIPTIONS</Text>
-                <TouchableOpacity style={styles.return} onPress={() => this.props.navigation.navigate('ClientLoginScreen')} >
+                <TouchableOpacity style={styles.return} onPress={() => this.props.navigation.navigate('Profile')} >
                     <Text style={styles.return_text}>RETURN TO HOMPAGE</Text>
 
                 </TouchableOpacity>
