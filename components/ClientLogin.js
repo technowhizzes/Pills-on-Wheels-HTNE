@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
+    Alert,
 } from "react-native";
 
 class ClientLogin extends React.Component {
@@ -24,12 +25,40 @@ class ClientLogin extends React.Component {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
+                console.log(data);
+                const theJSON = data;
+                if (theJSON['status'] == 1) {
+                    this.props.navigation.navigate('Profile')
+                }
+                if (theJSON['status'] == 0){
+                    if (theJSON['error'] == "Incorrect password") {
+                        Alert.alert(
+                            "Login Failed",
+                            "The password you entered is incorrect",
+                            [
+                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ],
+                            { cancelable: false }
+                        );
+                    } else if (theJSON['error'] == "User does not exist") {
+                        Alert.alert(
+                            "Login Failed",
+                            "The email you entered does not exist.",
+                            [
+                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ],
+                            { cancelable: false }
+                        );
+                    
+                    }
+
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-            
+
+
     }
 
 	static navigationOptions = {
