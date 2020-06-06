@@ -54,12 +54,13 @@ class DriverAccount extends React.Component {
 			lastName: data.lastName,
 			address: data.address,
 			email: data.email,
+			paypal: data.paypalEmail,
 			mobileNum: data.phoneNum,
 		});
-		console.log(this.state);
 	};
 
 	render() {
+		console.log(this.state);
 		return (
 			<View style={styles.container}>
 				<View style={styles.header}>
@@ -109,6 +110,12 @@ class DriverAccount extends React.Component {
 						</Text>
 					</View>
 					<View style={styles.field}>
+						<Text style={styles.fieldText}>PayPal Email:</Text>
+						<Text style={styles.fieldInput}>
+							{this.state.paypal}
+						</Text>
+					</View>
+					<View style={styles.field}>
 						<Text style={styles.fieldText}>Mobile:</Text>
 						<Text style={styles.fieldInput}>
 							{this.state.mobileNum}
@@ -116,17 +123,6 @@ class DriverAccount extends React.Component {
 					</View>
 				</View>
 				<View style={styles.footer}>
-					<TouchableOpacity style={styles.button}>
-						<Text
-							style={{
-								color: "white",
-								fontWeight: "bold",
-								fontSize: 16,
-							}}
-						>
-							CONFIGURE PAYMENT METHODS
-						</Text>
-					</TouchableOpacity>
 					<TouchableOpacity
 						style={styles.button}
 						onPress={() => this.props.navigation.pop(1)}
@@ -193,7 +189,6 @@ const styles = StyleSheet.create({
 	},
 	footer: {
 		flex: 2,
-		borderWidth: 1,
 		width: "100%",
 		justifyContent: "center",
 		alignItems: "center",
