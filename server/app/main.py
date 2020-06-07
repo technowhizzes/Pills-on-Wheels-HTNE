@@ -307,8 +307,8 @@ def claimDeliveryView():
         currClientAddress = currClient.address
 
 
-    except:
-        response = {'status': 0, 'error': 'Invalid JSON key'}
+    except Exception as e:
+        response = {'status': 0, 'error': 'Invalid JSON key', 'Exception': str(e)}
         return jsonify(response)
 
     else:
@@ -323,6 +323,21 @@ def claimDeliveryView():
         response = {'status': 1}
 
         return response
+
+@app.route('/claimedDeliveries')
+def claimedDeliveriesView():
+    reqJson = request.get_json()
+
+    currDriverId = reqJson['driverId']
+
+    currentDeliveries = ClaimedDelivery.query.filter_by(driverId=currDriverId).all()
+    currentDeliveriesDict = {'status': 1, 'deliveries': []}
+
+    for delivery in currentDeliveries:
+        currentDeliveriesDict['deliveries'].append(makeJson(dict(delivery.__dict__)))
+
+    return jsonify(currentDeliveriesDict)
+
 
 @app.route('/availableDeliveries', methods=["GET", "POST"])
 def availableDeliveriesView():
