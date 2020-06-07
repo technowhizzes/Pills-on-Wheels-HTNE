@@ -21,3 +21,17 @@
   - "validator": "^13.0.0"
   - "react-navigation": "^2.18.3"
   - "react-native-keyboard-aware-scroll-view": "^0.9.1"
+  
+- There are also a few backend dependencies (Python libraries)
+  - flask==1.1.2
+  - flask-sqlalchemy==2.4.3
+  - gunicorn==20.0.4
+  
+- To install these dependencies, simply open a command line in the server directory and run the command  
+
+  `$ pip install -r requirements.txt` 
+
+- Please ensure you have both Python and Pip Package Manager installed
+
+The backend API is hosted at: https://pillsonwheels.herokuapp.com
+
