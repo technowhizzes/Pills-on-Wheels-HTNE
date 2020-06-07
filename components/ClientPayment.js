@@ -18,14 +18,14 @@ var userId = "";
 class ClientPayment extends React.Component {
 
     goBack = async () => {
-        if (this.state.credit_card && this.state.cvv) {
+        if (this.state.credit_card && this.state.cvv && this.state.expiry) {
             Alert.alert(
                 'Payment Confirmation',
                 'Your payment mehod has been configured.',
                 [
                     {
                         text: 'OK',
-                        onPress: () => this.props.navigation.navigate("OrderPrescriptionScreen",)
+                        onPress: () => this.props.navigation.navigate("OrderPrescriptionScreen")
                     },
                 ],
                 { cancelable: false }
@@ -59,6 +59,7 @@ class ClientPayment extends React.Component {
     state = {
         credit_card: "",
         cvv: "",
+        expiry: "",
 
     };
     render() {
@@ -88,6 +89,14 @@ class ClientPayment extends React.Component {
 
                             onChangeText={(text) =>
                                 this.setState({ cvv: text })
+                            }
+                            style={styles.input}
+                        />
+                        <Text style={styles.expiry}>EXPIRY DATE:</Text>
+                        <TextInput
+
+                            onChangeText={(text) =>
+                                this.setState({ expiry: text })
                             }
                             style={styles.input}
                         />
@@ -142,6 +151,12 @@ const styles = StyleSheet.create({
         top: -100,
         left: 175
     },
+    expiry: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        top: -100,
+        left: 125
+    },
     button2: {
         borderWidth: 1,
         backgroundColor: "#DC0F0F",
@@ -170,14 +185,14 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
-        top: -200,
+        top: -160,
         left: 50
     },
     logo: {
         width: 100,
         height: 100,
         left: -150,
-        top: -150
+        top: -100
     }
 
 });
