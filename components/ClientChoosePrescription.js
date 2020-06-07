@@ -8,7 +8,8 @@ import {
 	ImageBackground,
 	Image,
 	TouchableOpacity,
-	FlatList,
+    FlatList,
+    Alert
 } from "react-native";
 import background from "../assets/background.jpg";
 import { AppLoading } from "expo";
@@ -21,8 +22,9 @@ import PrescriptionCard from "./PrescriptionCard";
 
 var userId = "";
 var prescriptionsJSON;
+var medName = " ";
 
-class ViewPrescriptions extends React.Component {
+class ChoosePrescription extends React.Component {
 	static navigationOptions = {
 		title: " ",
 		headerLeft: null,
@@ -35,7 +37,28 @@ class ViewPrescriptions extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-	}
+    }
+    
+    choosedelivery = async ({item}) => {
+        console.log("The item is: " + item.name)
+        
+        Alert.alert(
+            'Order Confirmation?',
+            'Are you sure you would like to choose this prescription to order?',
+            [
+              {
+                text: 'OK',
+                onPress: () => this.props.navigation.navigate("OrderPrescriptionScreen", {name : item.name, prescripID : item.id})
+              },
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+              },
+            ],
+            { cancelable: false }
+            );
+    }
 
 	RegisterinDB = async () => {
 		fetch("https://pillsonwheels.herokuapp.com/getPrescriptions", {
@@ -48,16 +71,16 @@ class ViewPrescriptions extends React.Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				prescriptionsJSON = data;
+                prescriptionsJSON = data;
 				this.setState({ prescriptions: data.prescriptions });
-				// console.log(data);
+				console.log(data);
 			})
 			.catch((error) => {
 				console.error("Error:", error);
 			});
 
 		//this.goToLogin
-		this.props.navigation.navigate("ViewPrescriptionsScreen");
+		//this.props.navigation.navigate("ViewPrescriptionsScreen");
 	};
 
 	componentDidMount() {
@@ -70,7 +93,7 @@ class ViewPrescriptions extends React.Component {
 		const itemId = this.props.navigation.getParam("id", "NO-ID");
 		userId = itemId;
 
-		console.log(this.state.prescriptions);
+		console.log("Client ID" + userId);
 
 		return (
 			<View style={styles.container}>
@@ -97,43 +120,8 @@ class ViewPrescriptions extends React.Component {
 				<View style={styles.body}>
 					<FlatList
 						data={this.state.prescriptions}
-						renderItem={(item) => <PrescriptionCard data={item} />}
+						renderItem={(item) => <PrescriptionCard data={item} onPress= {() => this.choosedelivery(item)} />}
 					/>
-				</View>
-				<View style={styles.footer}>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() =>
-							this.props.navigation.navigate(
-								"ClientAddPrescriptionScreen",
-								{ id: itemId }
-							)
-						}
-					>
-						<Text
-							style={{
-								fontWeight: "bold",
-								fontSize: 20,
-								color: "white",
-							}}
-						>
-							+ ADD PRESCRIPTION
-						</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => this.props.navigation.pop(1)}
-					>
-						<Text
-							style={{
-								fontWeight: "bold",
-								fontSize: 20,
-								color: "white",
-							}}
-						>
-							RETURN TO HOMEPAGE
-						</Text>
-					</TouchableOpacity>
 				</View>
 			</View>
 		);
@@ -178,4 +166,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ViewPrescriptions;
+export default ChoosePrescription;

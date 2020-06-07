@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-class PrescriptionCard extends React.Component {
+class DriverPrescriptionCard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -17,20 +17,8 @@ class PrescriptionCard extends React.Component {
 						style={styles.image}
 					/>
 					<View style={styles.textContainer}>
-						<Text style={styles.text}>
-							{item.name.toUpperCase()}
-						</Text>
-						<Text style={styles.text}>
-							PRESCRIBED BY: {item.prescribingDoctor}
-						</Text>
-						<Text style={styles.text}>
-							PRESCRIPTION #: {item.number}
-						</Text>
-						<Text style={styles.text}>
-							# OF REFILS: {item.reps}
-						</Text>
-						<Text style={styles.text}>MEDICINE INSTRUCTIONS:</Text>
-						<Text style={styles.text}> - {item.dose}</Text>
+						<Text style={styles.text}>{item.pharmacyAddress}</Text>
+						<Text style={styles.text}>{item.pharmacyName}</Text>
 					</View>
 				</View>
 			</TouchableOpacity>
@@ -38,7 +26,7 @@ class PrescriptionCard extends React.Component {
 	}
 }
 
-export default PrescriptionCard;
+export default DriverPrescriptionCard;
 
 const styles = StyleSheet.create({
 	card: {
@@ -46,7 +34,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		padding: 10,
 		marginVertical: 5,
-		backgroundColor: "#DC0F0F",
+		backgroundColor: "#878bff",
 		flexDirection: "row",
 		marginHorizontal: "7%",
 	},

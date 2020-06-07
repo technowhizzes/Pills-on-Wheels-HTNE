@@ -29,6 +29,7 @@ class ProfileActivity extends React.Component {
     render() {
 
         const itemId = this.props.navigation.getParam('id', 'NO-ID');
+        console.log("the itemid is "+ itemId);
         
         return (
             <View style={styles.container}>
@@ -37,7 +38,7 @@ class ProfileActivity extends React.Component {
                     <Text></Text>
                 </ImageBackground>
                 <Image source={logo} style={styles.logo} />
-                <TouchableOpacity style={styles.customer} >
+                <TouchableOpacity style={styles.customer} onPress={() => this.props.navigation.navigate('OrderPrescriptionScreen', { id: itemId })}  >
                     <Text style={styles.customer_text}>ORDER PRESCRIPTION</Text>
                     <Image source={pill} style={styles.pill} />
                 </TouchableOpacity>
