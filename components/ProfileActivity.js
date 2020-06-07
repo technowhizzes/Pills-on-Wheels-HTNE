@@ -29,6 +29,7 @@ class ProfileActivity extends React.Component {
     render() {
 
         const itemId = this.props.navigation.getParam('id', 'NO-ID');
+        console.log("the itemid is "+ itemId);
         
         return (
             <View style={styles.container}>

@@ -15,6 +15,7 @@ import DriverPayment from "./components/DriverPayment";
 import ClientAccount from "./components/ClientAccount";
 import ClientOrderPrescription from "./components/ClientOrderPrescription";
 import ChoosePrescription from "./components/ClientChoosePrescription";
+import ClientOrderConfirmation from "./components/ClientOrderConfirmation";
 
 const RootStack = createStackNavigator(
 	{
@@ -31,7 +32,8 @@ const RootStack = createStackNavigator(
 		DriverPaymentScreen: { screen: DriverPayment },
     ClientAccountScreen: { screen: ClientAccount },
     OrderPrescriptionScreen: { screen: ClientOrderPrescription },
-    ChoosePrescriptionScreen: { screen: ChoosePrescription }
+    ChoosePrescriptionScreen: { screen: ChoosePrescription },
+    ClientOrderConfirmationScreen: { screen: ClientOrderConfirmation }
 	},
 	{
 		initialRouteName: "Home",
