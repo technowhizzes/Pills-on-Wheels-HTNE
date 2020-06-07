@@ -42,7 +42,7 @@ class ClientAddPrescription extends React.Component {
 				});
 
 			//this.goToLogin
-			this.props.navigation.navigate('ViewPrescriptionsScreen')
+			this.props.navigation.navigate('Profile')
 		}
 
 	static navigationOptions = {

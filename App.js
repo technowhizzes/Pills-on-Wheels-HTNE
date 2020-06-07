@@ -10,10 +10,11 @@ import ClientLogin from "./components/ClientLogin";
 import DriverLogin from "./components/DriverLogin";
 import DriverAccount from "./components/DriverAccount";
 import ViewPrescriptions from "./components/ClientViewPrescriptions";
-import ClientAddPrescription from './components/ClientAddPrescription';
+import ClientAddPrescription from "./components/ClientAddPrescription";
 import DriverPayment from "./components/DriverPayment";
 import ClientAccount from "./components/ClientAccount";
-import ClientOrderPrescription from './components/ClientOrderPrescription';
+import ClientOrderPrescription from "./components/ClientOrderPrescription";
+import ChoosePrescription from "./components/ClientChoosePrescription";
 
 const RootStack = createStackNavigator(
 	{
@@ -24,12 +25,13 @@ const RootStack = createStackNavigator(
 		DriverVerify: { screen: DriverVerifyScreen },
 		ClientLoginScreen: { screen: ClientLogin },
 		DriverLoginScreen: { screen: DriverLogin },
-    DriverAccountScreen: { screen: DriverAccount },
-    ViewPrescriptionsScreen: { screen: ViewPrescriptions },
-    ClientAddPrescriptionScreen: { screen: ClientAddPrescription },
-    DriverPaymentScreen: { screen: DriverPayment },
+		DriverAccountScreen: { screen: DriverAccount },
+		ViewPrescriptionsScreen: { screen: ViewPrescriptions },
+		ClientAddPrescriptionScreen: { screen: ClientAddPrescription },
+		DriverPaymentScreen: { screen: DriverPayment },
     ClientAccountScreen: { screen: ClientAccount },
-    ClientOrderPrescriptionScreen : { screen: ClientOrderPrescription }
+    OrderPrescriptionScreen: { screen: ClientOrderPrescription },
+    ChoosePrescriptionScreen: { screen: ChoosePrescription }
 	},
 	{
 		initialRouteName: "Home",
