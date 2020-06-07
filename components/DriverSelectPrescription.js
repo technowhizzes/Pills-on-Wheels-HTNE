@@ -17,7 +17,7 @@ import logo from "../assets/logo.png";
 import { Root } from "native-base";
 import pill from "../assets/pill_logo.png";
 import car from "../assets/car_logo.png";
-import PrescriptionCard from "./PrescriptionCard";
+import DriverPrescriptionCard from "./DriverPrescriptionCard";
 
 var userId = "";
 var prescriptionsJSON;
@@ -61,12 +61,35 @@ class DriverSelectPrescription extends React.Component {
 		// this.props.navigation.navigate("ViewPrescriptionsScreen");
 	};
 
+	selectPrescription = async ({ item }) => {
+		console.log("input:", item.id);
+
+		fetch("https://pillsonwheels.herokuapp.com/claimDelivery", {
+			method: "POST",
+			headers: new Headers({
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			}),
+			body: JSON.stringify({
+				deliveryId: parseInt(item.id),
+				driverId: parseInt(userId),
+			}),
+		})
+			.then((response) => response.text())
+			.then((data) => {
+				console.log("incoming: ", data);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	};
+
 	componentDidMount() {
 		this.RegisterinDB();
 	}
 
 	render() {
-		const itemId = this.props.navigation.getParam("id", "NO-ID");
+		const itemId = this.props.navigation.getParam("driverId", "NO-ID");
 		userId = itemId;
 		// console.log(this.state.prescriptions);
 
@@ -96,7 +119,13 @@ class DriverSelectPrescription extends React.Component {
 				<View style={styles.body}>
 					<FlatList
 						data={this.state.prescriptions}
-						renderItem={(item) => <PrescriptionCard data={item} />}
+						renderItem={(item) => (
+							<DriverPrescriptionCard
+								data={item}
+								onPress={() => this.selectPrescription(item)}
+							/>
+						)}
+						keyExtractor={(item, index) => index.toString()}
 					/>
 				</View>
 				<View style={styles.footer}>
