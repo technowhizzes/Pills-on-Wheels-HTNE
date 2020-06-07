@@ -251,7 +251,7 @@ def getPrescriptionView():
 
         return jsonify(clientPrescriptionsDict)
 
-@app.route('/orderDelivery')
+@app.route('/orderDelivery', methods=["POST"])
 def orderDeliveryView():
     try:
         reqJson = request.get_json()
@@ -274,7 +274,7 @@ def orderDeliveryView():
 
         return jsonify(response)
 
-@app.route('/claimDelivery')
+@app.route('/claimDelivery', methods=["POST"])
 def claimDeliveryView():
     try:
         reqJson = request.get_json()
