@@ -22,6 +22,9 @@
   - "react-navigation": "^2.18.3"
   - "react-native-keyboard-aware-scroll-view": "^0.9.1"
   
+- To install all packages run:
+  `$ npm install` 
+  
 - There are also a few backend dependencies (Python libraries)
   - flask==1.1.2
   - flask-sqlalchemy==2.4.3
