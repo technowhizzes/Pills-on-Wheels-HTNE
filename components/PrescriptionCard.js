@@ -10,7 +10,7 @@ class PrescriptionCard extends React.Component {
 		// console.log("CARD:", this.props.data.item);
 		let item = this.props.data.item;
 		return (
-			<TouchableOpacity>
+			<TouchableOpacity onPress={this.props.onPress}>
 				<View style={styles.card}>
 					<Image
 						source={require("../assets/prescription_real.png")}
