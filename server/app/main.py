@@ -67,24 +67,33 @@ class Prescription(db.Model):
 class AvailableDelivery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     prescriptionId = db.Column(db.String(255), db.ForeignKey('prescription.id'))
+    prescriptionNumber = db.Column(db.String(255), nullable=False)
+    clientAddress = db.Column(db.String(255), nullable=False)
     pharmacyName = db.Column(db.String(255), nullable=False)
     pharmacyAddress = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, prescriptionId, pharmacyName, pharmacyAddress):
+    def __init__(self, prescriptionId, prescriptionNumber, clientAddress, pharmacyName, pharmacyAddress):
         self.prescriptionId = prescriptionId
+        self.prescriptionNumber = prescriptionNumber
+        self.clientAddress = clientAddress
         self.pharmacyName = pharmacyName
         self.pharmacyAddress = pharmacyAddress
 
 class ClaimedDelivery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     driverId = db.Column(db.Integer, db.ForeignKey('driver.id'))
-    deliveryId = db.Column(db.Integer, db.ForeignKey('available_delivery.id'))
+    prescriptionNumber = db.Column(db.String(255), nullable=False)
+    clientAddress = db.Column(db.String(255), nullable=False)
+    pharmacyName = db.Column(db.String(255), nullable=False)
+    pharmacyAddress = db.Column(db.String(255), nullable=False)
     completed = db.Column(db.Boolean, default=False, nullable=False)
 
-    def __init__(self, driverId, deliveryId):
+    def __init__(self, driverId, prescriptionNumber, clientAddress, pharmacyName, pharmacyAddress):
         self.driverId = driverId
-        self.deliveryId = deliveryId
-
+        self.prescriptionNumber = prescriptionNumber
+        self.clientAddress = clientAddress
+        self.pharmacyName = pharmacyName
+        self.pharmacyAddress = pharmacyAddress
 
 # GLOBAL FUNCTIONS
 def makeJson(result):
@@ -259,13 +268,17 @@ def orderDeliveryView():
         currPrescriptionId = reqJson['prescriptionId']
         currDeliveryPharmacyName = reqJson['pharmacyName']
         currDeliveryPharmacyAddress = reqJson['pharmacyAddress']
+        currPrescription = Prescription.query.filter_by(id=currPrescriptionId).first()
+        currPrescriptionNumber = currPrescription.number
+        currClient = Client.query.filter_by(id=currPrescription.clientId).first()
+        currClientAddress = currClient.address
 
     except:
         response = {'status': 0, 'error': 'Invalid JSON key'}
         return jsonify(response)
 
     else:
-        d = AvailableDelivery(currPrescriptionId, currDeliveryPharmacyName, currDeliveryPharmacyAddress)
+        d = AvailableDelivery(currPrescriptionId, currPrescriptionNumber, currClientAddress, currDeliveryPharmacyName, currDeliveryPharmacyAddress)
 
         db.session.add(d)
         db.session.commit()
@@ -279,16 +292,28 @@ def claimDeliveryView():
     try:
         reqJson = request.get_json()
 
-        currDriverId = reqJson['driverId']
-        currDeliveryId = reqJson['deliveryId']
+        availableDeliveryId = reqJson['deliveryId']
+        currDelivery = AvailableDelivery.query.filter_by(id=availableDeliveryId).first()
+
+        currPharmacyName =  currDelivery.pharmacyName
+        currPharmacyAddress = currDelivery.pharmacyAddress
+        currPrescriptionId = currDelivery.prescriptionId
+
+        currDriverId = reqJson['driverId'] if reqJson['driverId'] else None
+
+        currPrescription = Prescription.query.filter_by(id=currPrescriptionId).first()
+        currPrescriptionNumber = currPrescription.number
+        currClient = Client.query.filter_by(id=currPrescription.clientId).first()
+        currClientAddress = currClient.address
+
 
     except:
         response = {'status': 0, 'error': 'Invalid JSON key'}
         return jsonify(response)
 
     else:
-        d = ClaimedDelivery(currDriverId, currDeliveryId)
-        ad = AvailableDelivery.query.filter_by(deliverId=currDeliveryId)
+        d = ClaimedDelivery(currDriverId, currPrescriptionNumber, currClientAddress, currPharmacyName, currPharmacyAddress)
+        ad = AvailableDelivery.query.filter_by(deliverId=availableDeliveryId)
 
         db.session.add(d)
         db.session.delete(ad)
