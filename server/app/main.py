@@ -299,6 +299,16 @@ def claimDeliveryView():
 
         return response
 
+@app.route('/availableDeliveries', methods=["POST"])
+def availableDeliveriesView():
+    ad = AvailableDelivery.query.all()
+    deliveryDict = {'status': 1, 'deliveries': []}
+
+    for delivery in ad:
+        deliveryDict["deliveries"].append(makeJson(dict(delivery.__dict__)))
+
+    return jsonify(deliveryDict)
+
 @app.route('/clientAccountInfo', methods=["POST"])
 def clientAccountView():
     reqJson = request.get_json()
