@@ -324,7 +324,7 @@ def claimDeliveryView():
 
         return response
 
-@app.route('/claimedDeliveries')
+@app.route('/claimedDeliveries', methods=["POST"])
 def claimedDeliveriesView():
     reqJson = request.get_json()
 
@@ -338,6 +338,20 @@ def claimedDeliveriesView():
 
     return jsonify(currentDeliveriesDict)
 
+@app.route('/completeDelivery', methods=["POST"])
+def completeDeliveryView():
+    reqJson = request.get_json()
+
+    deliveryId = reqJson['deliveryId']
+
+    d = ClaimedDelivery.query.filter_by(id=deliveryId).first()
+
+    db.session.delete(d)
+    db.session.commit()
+
+    response = {'status': 1}
+
+    return jsonify(response)
 
 @app.route('/availableDeliveries', methods=["GET", "POST"])
 def availableDeliveriesView():
