@@ -287,7 +287,7 @@ def orderDeliveryView():
 
         return jsonify(response)
 
-@app.route('/claimDelivery', methods=["POST"])
+@app.route('/claimDelivery', methods=["GET", "POST"])
 def claimDeliveryView():
     try:
         reqJson = request.get_json()
@@ -313,7 +313,7 @@ def claimDeliveryView():
 
     else:
         d = ClaimedDelivery(currDriverId, currPrescriptionNumber, currClientAddress, currPharmacyName, currPharmacyAddress)
-        ad = AvailableDelivery.query.filter_by(deliverId=availableDeliveryId)
+        ad = AvailableDelivery.query.filter_by(deliveryId=availableDeliveryId)
 
         db.session.add(d)
         db.session.delete(ad)
