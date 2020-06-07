@@ -324,7 +324,7 @@ def claimDeliveryView():
 
         return response
 
-@app.route('/availableDeliveries', methods=["POST"])
+@app.route('/availableDeliveries', methods=["GET", "POST"])
 def availableDeliveriesView():
     ad = AvailableDelivery.query.all()
     deliveryDict = {'status': 1, 'deliveries': []}
