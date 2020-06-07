@@ -11,6 +11,7 @@ import {
 	Alert,
 } from "react-native";
 import validator from "validator";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class DriverVerifyScreen extends React.Component {
 	goToLogin = async () => {
@@ -24,7 +25,7 @@ class DriverVerifyScreen extends React.Component {
 			this.state.mobileNum.length == 10 &&
 			this.state.address &&
 			this.state.password.length > 7 &&
-			validator.isEmail(this.state.email)
+			validator.isEmail(this.state.email) && validator.isEmail(this.state.paypal)
 		) {
 			fetch("https://pillsonwheels.herokuapp.com/driverSignUp", {
 				method: "POST",
@@ -52,26 +53,13 @@ class DriverVerifyScreen extends React.Component {
 			this.goToLogin;
 			this.props.navigation.navigate("DriverLoginScreen");
 		}
-		if (
-			!this.state.password ||
-			!this.state.firstName ||
-			!this.state.lastName ||
-			!this.state.address ||
-			!this.state.mobileNum ||
-			!this.state.email
-		) {
+		else {
 			Alert.alert(
 				"Registration Failed",
-				"Please ensure all fields are entered correctly.",
-				[{ text: "OK", onPress: () => console.log("OK Pressed") }],
-				{ cancelable: false }
-			);
-		}
-		if (this.state.password.length < 8) {
-			Alert.alert(
-				"Registration Failed",
-				"Password must be more than 7 characters.",
-				[{ text: "OK", onPress: () => console.log("OK Pressed") }],
+				"Please ensure all fields are entered correctly and password length is greater than 7 characters.",
+				[
+					{ text: "OK", onPress: () => console.log("OK Pressed") }
+				],
 				{ cancelable: false }
 			);
 		}
@@ -93,88 +81,91 @@ class DriverVerifyScreen extends React.Component {
 		email: "",
 		mobileNum: "",
 		password: "",
+		paypal: ""
 	};
 	render() {
 		return (
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-				<View style={styles.container}>
-					<Image
-						source={require("../assets/logo.png")}
-						style={styles.logo}
-					/>
-					<Text style={styles.text}>
-						ENTER YOUR INFORMATION TO GET STARTED!
+				<KeyboardAwareScrollView>
+					<View style={styles.container}>
+						<Image
+							source={require("../assets/logo.png")}
+							style={styles.logo}
+						/>
+						<Text style={styles.text}>
+							ENTER YOUR INFORMATION TO GET STARTED!
 					</Text>
-					<View style={styles.inputContainer}>
-						<TextInput
-							placeholder="First Name"
-							onChangeText={(text) =>
-								this.setState({ firstName: text })
-							}
-							style={styles.input}
-						/>
-						<TextInput
-							placeholder="Last Name"
-							onChangeText={(text) =>
-								this.setState({ lastName: text })
-							}
-							style={styles.input}
-						/>
-						<TextInput
-							placeholder="Address"
-							onChangeText={(text) =>
-								this.setState({ address: text })
-							}
-							style={styles.input}
-						/>
-						<TextInput
-							placeholder="Email Address"
-							onChangeText={(text) =>
-								this.setState({ email: text })
-							}
-							style={styles.input}
-						/>
-						<TextInput
-							placeholder="PayPal Email Address"
-							onChangeText={(text) =>
-								this.setState({ paypal: text })
-							}
-							style={styles.input}
-						/>
-						<TextInput
-							placeholder="Mobile Number"
-							keyboardType={"phone-pad"}
-							returnKeyType="done"
-							onChangeText={(text) =>
-								this.setState({ mobileNum: text })
-							}
-							style={styles.input}
-						/>
+						<View style={styles.inputContainer}>
+							<TextInput
+								placeholder="First Name"
+								onChangeText={(text) =>
+									this.setState({ firstName: text })
+								}
+								style={styles.input}
+							/>
+							<TextInput
+								placeholder="Last Name"
+								onChangeText={(text) =>
+									this.setState({ lastName: text })
+								}
+								style={styles.input}
+							/>
+							<TextInput
+								placeholder="Address"
+								onChangeText={(text) =>
+									this.setState({ address: text })
+								}
+								style={styles.input}
+							/>
+							<TextInput
+								placeholder="Email Address"
+								onChangeText={(text) =>
+									this.setState({ email: text })
+								}
+								style={styles.input}
+							/>
+							<TextInput
+								placeholder="PayPal Email Address"
+								onChangeText={(text) =>
+									this.setState({ paypal: text })
+								}
+								style={styles.input}
+							/>
+							<TextInput
+								placeholder="Mobile Number"
+								keyboardType={"phone-pad"}
+								returnKeyType="done"
+								onChangeText={(text) =>
+									this.setState({ mobileNum: text })
+								}
+								style={styles.input}
+							/>
 
-						<TextInput
-							placeholder="Password"
-							secureTextEntry={true}
-							onChangeText={(text) =>
-								this.setState({ password: text })
-							}
-							style={styles.input}
-						/>
-					</View>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={this.RegisterinDB}
-					>
-						<Text
-							style={{
-								color: "white",
-								fontSize: 20,
-								fontWeight: "bold",
-							}}
+							<TextInput
+								placeholder="Password"
+								secureTextEntry={true}
+								onChangeText={(text) =>
+									this.setState({ password: text })
+								}
+								style={styles.input}
+							/>
+						</View>
+						<TouchableOpacity
+							style={styles.button}
+							onPress={this.RegisterinDB}
 						>
-							REGISTER
+							<Text
+								style={{
+									color: "white",
+									fontSize: 20,
+									fontWeight: "bold",
+								}}
+							>
+								REGISTER
 						</Text>
-					</TouchableOpacity>
-				</View>
+						</TouchableOpacity>
+					</View>
+				</KeyboardAwareScrollView>
 			</TouchableWithoutFeedback>
 		);
 	}

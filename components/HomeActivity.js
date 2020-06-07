@@ -32,7 +32,7 @@ class HomeActivity extends React.Component {
                     <Image source={pill} style={styles.pill} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.deliverer} onPress={() => this.props.navigation.navigate('DriverLoginScreen')}>
-                    <Text style={styles.deliverer_text}>DELIVERER</Text>
+                    <Text style={styles.deliverer_text}>DRIVER</Text>
                     <Image source={car} style={styles.car} />
                 </TouchableOpacity>
                 
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     deliverer_text: {
         fontSize: 25,
         fontWeight: 'bold',
-        left: 140,
+        left: 150,
         top: 25
     },
     deliverer: {
