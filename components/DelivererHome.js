@@ -50,7 +50,17 @@ class DelivererHome extends React.Component {
 					>
 						YOUR HOMEPAGE
 					</Text>
-					<TouchableOpacity style={styles.button}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() =>
+							this.props.navigation.navigate(
+								"DriverSelectPrescriptionScreen",
+								{
+									driverId: this.state.driverId,
+								}
+							)
+						}
+					>
 						<Image
 							source={require("../assets/pill_logo.png")}
 							style={styles.buttonImg}

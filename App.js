@@ -13,6 +13,7 @@ import ViewPrescriptions from "./components/ClientViewPrescriptions";
 import ClientAddPrescription from "./components/ClientAddPrescription";
 import DriverPayment from "./components/DriverPayment";
 import ClientAccount from "./components/ClientAccount";
+import DriverSelectPrescription from "./components/DriverSelectPrescription";
 
 const RootStack = createStackNavigator(
 	{
@@ -28,6 +29,7 @@ const RootStack = createStackNavigator(
 		ClientAddPrescriptionScreen: { screen: ClientAddPrescription },
 		DriverPaymentScreen: { screen: DriverPayment },
 		ClientAccountScreen: { screen: ClientAccount },
+		DriverSelectPrescriptionScreen: { screen: DriverSelectPrescription },
 	},
 	{
 		initialRouteName: "Home",
