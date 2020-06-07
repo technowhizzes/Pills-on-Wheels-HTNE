@@ -185,7 +185,7 @@ export default DriverVerifyScreen;
 const styles = StyleSheet.create({
 	button: {
 		borderWidth: 1,
-		backgroundColor: "red",
+		backgroundColor: "#DC0F0F",
 		borderRadius: 6,
 		height: 40,
 		width: "80%",

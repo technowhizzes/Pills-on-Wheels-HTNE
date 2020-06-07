@@ -40,19 +40,10 @@ class VerifyScreen extends React.Component {
 
 			this.goToLogin
 			this.props.navigation.navigate('ClientLoginScreen')
-		} if (!this.state.password || !this.state.firstName || !this.state.lastName || !this.state.address || !this.state.mobileNum || !this.state.email) {
+		} else {
 			Alert.alert(
 				"Registration Failed",
-				"Please ensure all fields are entered correctly.",
-				[
-					{ text: "OK", onPress: () => console.log("OK Pressed") }
-				],
-				{ cancelable: false }
-			);
-		} if (this.state.password.length < 8) {
-			Alert.alert(
-				"Registration Failed",
-				"Password must be more than 7 characters.",
+				"Please ensure all fields are entered correctly and password length is greater than 7 characters.",
 				[
 					{ text: "OK", onPress: () => console.log("OK Pressed") }
 				],
@@ -164,7 +155,7 @@ export default VerifyScreen;
 const styles = StyleSheet.create({
 	button: {
 		borderWidth: 1,
-		backgroundColor: "red",
+		backgroundColor: "#DC0F0F",
 		borderRadius: 6,
 		height: 40,
 		width: "80%",
