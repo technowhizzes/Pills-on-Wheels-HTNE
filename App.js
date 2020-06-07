@@ -19,6 +19,7 @@ import ClientOrderConfirmation from "./components/ClientOrderConfirmation";
 import DriverSelectPrescription from "./components/DriverSelectPrescription";
 import DriverDeliveryConfirmation from "./components/DriverDeliveryConfirmation";
 import ClientPayment from "./components/ClientPayment";
+console.disableYellowBox = true;
 
 const RootStack = createStackNavigator(
 	{
