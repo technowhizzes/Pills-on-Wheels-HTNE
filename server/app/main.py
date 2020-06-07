@@ -313,7 +313,7 @@ def claimDeliveryView():
 
     else:
         d = ClaimedDelivery(currDriverId, currPrescriptionNumber, currClientAddress, currPharmacyName, currPharmacyAddress)
-        ad = AvailableDelivery.query.filter_by(deliveryId=availableDeliveryId)
+        ad = AvailableDelivery.query.filter_by(id=availableDeliveryId)
 
         db.session.add(d)
         db.session.delete(ad)
