@@ -119,7 +119,23 @@ class ClientAccount extends React.Component {
 				<View style={styles.footer}>
 					<TouchableOpacity
 						style={styles.button}
-						onPress={() => this.props.navigation.pop(1)}
+						onPress={() => this.props.navigation.navigate("Home")}
+					>
+						<Text
+							style={{
+								color: "white",
+								fontWeight: "bold",
+								fontSize: 16,
+							}}
+						>
+							LOGOUT
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() =>
+							this.props.navigation.navigate("Profile")
+						}
 					>
 						<Text
 							style={{
@@ -145,7 +161,7 @@ const styles = StyleSheet.create({
 		height: "20%",
 		borderWidth: 1,
 		borderRadius: 6,
-		backgroundColor: "red",
+		backgroundColor: "#DC0F0F",
 		marginVertical: 20,
 		justifyContent: "center",
 		alignItems: "center",

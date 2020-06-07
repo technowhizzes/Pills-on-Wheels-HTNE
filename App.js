@@ -16,6 +16,10 @@ import ClientAccount from "./components/ClientAccount";
 import ClientOrderPrescription from "./components/ClientOrderPrescription";
 import ChoosePrescription from "./components/ClientChoosePrescription";
 import ClientOrderConfirmation from "./components/ClientOrderConfirmation";
+import DriverSelectPrescription from "./components/DriverSelectPrescription";
+import DriverDeliveryConfirmation from "./components/DriverDeliveryConfirmation";
+import ClientPayment from "./components/ClientPayment";
+console.disableYellowBox = true;
 
 const RootStack = createStackNavigator(
 	{
@@ -30,10 +34,13 @@ const RootStack = createStackNavigator(
 		ViewPrescriptionsScreen: { screen: ViewPrescriptions },
 		ClientAddPrescriptionScreen: { screen: ClientAddPrescription },
 		DriverPaymentScreen: { screen: DriverPayment },
-    ClientAccountScreen: { screen: ClientAccount },
-    OrderPrescriptionScreen: { screen: ClientOrderPrescription },
-    ChoosePrescriptionScreen: { screen: ChoosePrescription },
-    ClientOrderConfirmationScreen: { screen: ClientOrderConfirmation }
+		ClientAccountScreen: { screen: ClientAccount },
+		OrderPrescriptionScreen: { screen: ClientOrderPrescription },
+		ChoosePrescriptionScreen: { screen: ChoosePrescription },
+		ClientOrderConfirmationScreen: { screen: ClientOrderConfirmation },
+		DriverSelectPrescriptionScreen: { screen: DriverSelectPrescription },
+		DriverDeliveryConfirmationScreen: { screen: DriverDeliveryConfirmation },
+		ClientPaymentScreen: { screen: ClientPayment }
 	},
 	{
 		initialRouteName: "Home",

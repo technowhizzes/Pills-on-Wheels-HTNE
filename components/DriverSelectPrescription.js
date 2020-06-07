@@ -62,7 +62,10 @@ class DriverSelectPrescription extends React.Component {
 	};
 
 	selectPrescription = async ({ item }) => {
-		console.log("input:", item.id);
+		console.log("input:", {
+			deliveryId: parseInt(item.id),
+			driverId: parseInt(userId),
+		});
 
 		fetch("https://pillsonwheels.herokuapp.com/claimDelivery", {
 			method: "POST",
@@ -75,9 +78,17 @@ class DriverSelectPrescription extends React.Component {
 				driverId: parseInt(userId),
 			}),
 		})
-			.then((response) => response.text())
+			.then((response) => response.json())
 			.then((data) => {
 				console.log("incoming: ", data);
+				if (data.status == 1) {
+					this.props.navigation.navigate(
+						"DriverDeliveryConfirmationScreen",
+						{
+							driverId: userId,
+						}
+					);
+				}
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -162,7 +173,7 @@ const styles = StyleSheet.create({
 		width: "60%",
 		height: "40%",
 		marginVertical: "1%",
-		backgroundColor: "red",
+		backgroundColor: "#DC0F0F",
 		// justifyContent: "center",
 		alignItems: "center",
 	},

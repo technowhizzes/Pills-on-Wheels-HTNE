@@ -15,6 +15,8 @@ import {
 var userId = "";
 var medicine = "";
 var prescription = "";
+var didPayment = "";
+var didPrescription = "";
 
 
 
@@ -22,23 +24,52 @@ var prescription = "";
 
 class ClientOrderPrescription extends React.Component {
 
+
+
     sendtoDB = async () => {
-        fetch("https://pillsonwheels.herokuapp.com/orderDelivery", {
-            method: "POST",
-            headers: new Headers({
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-            }),
-            body: JSON.stringify({ "prescriptionId": prescription, "pharmacyName": this.state.pharmacyName, "pharmacyAddress": this.state.pharmacyAddress }),
-        })
-            .then((response) => response.text())
-            .then((data) => {
-                console.log(data)
+        console.log(this.state.pharmacyName);
+        console.log(this.state.pharmacyAddress);
+        console.log(didPayment);
+        console.log(didPrescription);
+        if (this.state.pharmacyAddress && this.state.pharmacyName && didPayment == 'paid' && didPrescription == 'chosen') {
+            fetch("https://pillsonwheels.herokuapp.com/orderDelivery", {
+                method: "POST",
+                headers: new Headers({
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                }),
+                body: JSON.stringify({ "prescriptionId": prescription, "pharmacyName": this.state.pharmacyName, "pharmacyAddress": this.state.pharmacyAddress }),
             })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-        this.props.navigation.navigate("ClientOrderConfirmationScreen", { name: medicine, pharmacy: this.state.pharmacyAddress })
+                .then((response) => response.text())
+                .then((data) => {
+                    console.log(data)
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+            this.props.navigation.navigate("ClientOrderConfirmationScreen", { name: medicine, pharmacy: this.state.pharmacyAddress })
+        } else {
+            Alert.alert(
+                'Invalid Order',
+                'Please ensure all fields are entered and a prescription and payment method are chosen.',
+                [
+                    {
+                        text: 'OK'
+                    },
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    checkPayment = async () => {
+        this.props.navigation.navigate("ClientPaymentScreen")
+        didPayment = 'paid';
+    }
+
+    checkPrescription = async () => {
+        this.props.navigation.navigate("ChoosePrescriptionScreen", { id: userId })
+        didPrescription = 'chosen';
     }
 
 
@@ -102,7 +133,19 @@ class ClientOrderPrescription extends React.Component {
                             PLACE ORDER
 						</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("ChoosePrescriptionScreen", { id: itemId })} >
+                    <TouchableOpacity style={styles.button3} onPress={this.checkPayment}>
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 20,
+                                fontWeight: "bold",
+
+                            }}
+                        >
+                            CONFIGURE PAYMENT
+						</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={this.checkPrescription} >
                         <Text
                             style={{
                                 color: "white",
@@ -150,7 +193,7 @@ const styles = StyleSheet.create({
         width: "80%",
         justifyContent: "center",
         alignItems: "center",
-        top: -100
+        top: -150
     },
     button2: {
         borderWidth: 1,
@@ -160,7 +203,17 @@ const styles = StyleSheet.create({
         width: "80%",
         justifyContent: "center",
         alignItems: "center",
-        top: 40
+        top: 140
+    },
+    button3: {
+        borderWidth: 1,
+        backgroundColor: "#DC0F0F",
+        borderRadius: 6,
+        height: 50,
+        width: "80%",
+        justifyContent: "center",
+        alignItems: "center",
+        top: -20
     },
     input: {
         borderWidth: 1,
@@ -196,7 +249,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         left: 0,
-        top: 380
+        top: -120
     }
 
 });

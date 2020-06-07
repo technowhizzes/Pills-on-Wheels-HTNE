@@ -146,7 +146,7 @@ export default DriverLogin;
 const styles = StyleSheet.create({
 	login: {
 		borderWidth: 1,
-		backgroundColor: "red",
+		backgroundColor: "#DC0F0F",
 		borderRadius: 6,
 		height: 40,
 		width: "80%",
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
 	},
 	register: {
 		borderWidth: 1,
-		backgroundColor: "red",
+		backgroundColor: "#DC0F0F",
 		borderRadius: 6,
 		height: 50,
 		width: "80%",

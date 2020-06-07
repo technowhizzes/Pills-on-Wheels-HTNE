@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         top: -375,
-        left: 150
+        left: 80
     },
     button2: {
         borderWidth: 1,
