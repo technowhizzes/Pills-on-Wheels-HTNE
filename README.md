@@ -10,7 +10,7 @@
 
 ### Design:
 - This app was created in React Native using the Expo client
-- The app can be run on any Android device using the Expo Client by scanning the QR code at the following link:
+- The app can be run on any Android device using the Expo Client by scanning the QR code at the following link: https://expo.io/@areez_visram/PillsOnWheels
 - The app will be available on the Google Play Store in the coming days
 
 ### Dependencies:
